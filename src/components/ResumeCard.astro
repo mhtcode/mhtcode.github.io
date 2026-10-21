@@ -4,12 +4,13 @@ import Icon from "./Icon.astro";
 interface Props {
   item: ResumeItem;
   category: string;
+  basePath?: string;
 }
-const { item, category } = Astro.props;
+const { item, category, basePath = "/" } = Astro.props;
 ---
 
 <article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-  <a href={`/${category}/${item.slug}/`} class="resume-card block">
+  <a href={`${basePath}${category}/${item.slug}/`} class="resume-card block">
     <div class="md:flex">
       {item.image && (
         <div class="md:shrink-0">

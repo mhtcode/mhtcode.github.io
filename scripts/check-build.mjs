@@ -10,6 +10,30 @@ assert.ok(
   "A separate academic portfolio must be generated",
 );
 const academic = readFileSync("dist/academic/index.html", "utf8");
+for (const content of [html, academic]) {
+  const header = content.match(
+    /<header[^>]*id="site-header"[\s\S]*?<\/header>/,
+  )?.[0];
+  assert.ok(
+    header?.includes('id="section-menu-toggle"'),
+    "Section menu must be inside the pinned header",
+  );
+  assert.ok(
+    !content.includes('id="mobile-section-bar"'),
+    "No separate mobile section bar",
+  );
+}
+assert.match(academic, /Download CV/);
+assert.ok(
+  !academic.includes('href="/academic/projects/manisa/"'),
+  "Academic projects must be curated for research",
+);
+assert.ok(
+  !html.includes(
+    'href="/experience/med-x-product-innovation/" class="resume-card',
+  ),
+  "Engineering experience must focus on infrastructure",
+);
 assert.match(html, /Cloud, DevOps &amp; MLOps Engineer<\/p>/);
 assert.match(academic, /Cloud Computing &amp; Applied AI Research/);
 assert.match(html, />About me<\/h2>/);
@@ -143,15 +167,23 @@ assert.deepEqual(
         .filter(
           (item) => !portfolioProfiles.academic.hiddenItems.includes(item.slug),
         )
-        .map((item) => `/${section.slug}/${item.slug}/`),
+        .map((item) => `/academic/${section.slug}/${item.slug}/`),
     ),
   ),
   "Academic view must show the intended entries without the duplicate interests card",
 );
 assert.equal(
   detailRoutes.length,
-  resumeSections.reduce((count, section) => count + section.items.length, 0),
-  "Every shared entry must appear in the portfolio",
+  resumeSections.reduce(
+    (count, section) =>
+      count +
+      section.items.filter(
+        (item) =>
+          !portfolioProfiles.engineering.hiddenItems.includes(item.slug),
+      ).length,
+    0,
+  ),
+  "Engineering view must contain its selected entries",
 );
 assert.equal(
   new Set(detailRoutes).size,
@@ -160,7 +192,9 @@ assert.equal(
 );
 assert.equal(
   pages.length,
-  detailRoutes.length + 2,
+  resumeSections.reduce((count, section) => count + section.items.length, 0) +
+    academicRoutes.length +
+    2,
   "Every portfolio entry must produce a detail page",
 );
 for (const page of pages) {

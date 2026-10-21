@@ -1,0 +1,15 @@
+---
+import PortfolioDetail from "../../../components/PortfolioDetail.astro";
+import { getProfileSections } from "../../../profiles";
+export function getStaticPaths() {
+  return getProfileSections("academic").flatMap((section) =>
+    section.items.map((item) => ({
+      params: { category: section.slug, slug: item.slug },
+      props: { section, item },
+    })),
+  );
+}
+const { section, item } = Astro.props;
+---
+
+<PortfolioDetail section={section} item={item} profile="academic" />

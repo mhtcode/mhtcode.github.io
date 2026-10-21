@@ -1,74 +1,26 @@
 ---
 import Hero from "./Hero.astro";
 import ResumeCard from "./ResumeCard.astro";
-import { resumeSections } from "../portfolio";
+import { getProfileSections } from "../profiles";
 import { portfolioProfiles, type ProfileKind } from "../config";
 interface Props {
   profile: ProfileKind;
 }
 const { profile } = Astro.props;
 const content = portfolioProfiles[profile];
-function orderBySlug<T extends { slug: string }>(
-  items: T[],
-  order: string[],
-): T[] {
-  const rank = (slug: string) => {
-    const index = order.indexOf(slug);
-    return index === -1 ? order.length : index;
-  };
-  return [...items].sort((a, b) => rank(a.slug) - rank(b.slug));
-}
-const sections = orderBySlug(resumeSections, content.sectionOrder).map(
-  (section) => {
-    const order =
-      section.slug === "skills"
-        ? content.skillOrder
-        : section.slug === "projects"
-          ? content.projectOrder
-          : section.slug === "experience"
-            ? content.experienceOrder
-            : [];
-    return {
-      ...section,
-      items: orderBySlug(section.items, order).filter(
-        (item) => !content.hiddenItems.includes(item.slug),
-      ),
-    };
-  },
-);
+const sections = getProfileSections(profile);
 ---
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-  <div class="mobile-section-bar" id="mobile-section-bar" hidden>
-    <button
-      type="button"
-      id="section-menu-toggle"
-      aria-haspopup="dialog"
-      aria-expanded="false"
-      aria-controls="section-drawer"
-    >
-      <svg
-        viewBox="0 0 24 24"
-        width="20"
-        height="20"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        aria-hidden="true"
-      >
-        <path d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-      Sections
-    </button>
-    <span id="current-section-name">{sections[0].name}</span>
-  </div>
   <dialog
     id="section-drawer"
     class="section-drawer"
     aria-labelledby="section-drawer-title"
   >
     <div class="section-drawer-header">
-      <h2 id="section-drawer-title">Portfolio sections</h2>
+      <h2 id="section-drawer-title">
+        {profile === "academic" ? "Academic sections" : "Engineering sections"}
+      </h2>
       <button
         type="button"
         id="section-menu-close"
@@ -139,7 +91,11 @@ const sections = orderBySlug(resumeSections, content.sectionOrder).map(
       </div>
       <div class="space-y-6">
         {section.items.map((item) => (
-          <ResumeCard item={item} category={section.slug} />
+          <ResumeCard
+            item={item}
+            category={section.slug}
+            basePath={profile === "academic" ? "/academic/" : "/"}
+          />
         ))}
       </div>
     </section>
@@ -175,9 +131,8 @@ const sections = orderBySlug(resumeSections, content.sectionOrder).map(
   const currentSectionName = document.querySelector<HTMLElement>(
     "#current-section-name",
   )!;
-  const mobileBar = document.querySelector<HTMLElement>("#mobile-section-bar")!;
   const smallScreen = window.matchMedia("(max-width: 767px)");
-  mobileBar.hidden = false;
+  menuToggle.hidden = false;
 
   function selectTab(slug: string, focus = false) {
     const selected =

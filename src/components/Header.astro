@@ -5,6 +5,9 @@ interface Props {
   activeProfile?: ProfileKind;
 }
 const { activeProfile } = Astro.props;
+const hasSectionMenu =
+  Astro.url.pathname === "/" ||
+  Astro.url.pathname.replace(/\/$/, "") === "/academic";
 const currentProfile =
   activeProfile ??
   (Astro.url.pathname.startsWith("/research/") ||
@@ -17,16 +20,19 @@ const portfolioTitle =
     : "Engineering Portfolio";
 ---
 
-<header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+<header
+  id="site-header"
+  class="site-header bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700"
+>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex flex-wrap justify-between items-center gap-3 min-h-16 py-3">
+    <div class="site-header-layout">
       <a
         href={currentProfile === "academic" ? "/academic/" : "/"}
-        class="text-2xl font-bold text-primary-600 dark:text-primary-400"
+        class="header-brand text-2xl font-bold text-primary-600 dark:text-primary-400"
       >
         {portfolioTitle}
       </a>
-      <div class="flex items-center gap-3 sm:gap-6">
+      <div class="header-navigation">
         <nav
           aria-label="Portfolio views"
           class="flex gap-3 sm:gap-6 text-sm font-medium"
@@ -52,21 +58,58 @@ const portfolioTitle =
             Academic
           </a>
         </nav>
-        <button
-          id="theme-toggle"
-          type="button"
-          aria-label="Switch to dark theme"
-          aria-pressed="false"
-          class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-        >
-          <Icon name="sun" class="w-5 h-5 hidden dark:block" />
-          <Icon name="moon" class="w-5 h-5 dark:hidden" />
-        </button>
+        {activeProfile && hasSectionMenu && (
+          <button
+            type="button"
+            id="section-menu-toggle"
+            class="section-menu-trigger"
+            aria-label="Open sections menu"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+            aria-controls="section-drawer"
+            aria-describedby="current-section-name"
+            hidden
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <span>Sections</span>
+            <span id="current-section-name" class="sr-only"></span>
+          </button>
+        )}
       </div>
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label="Switch to dark theme"
+        aria-pressed="false"
+        class="header-theme-toggle"
+      >
+        <Icon name="sun" class="w-5 h-5 hidden dark:block" />
+        <Icon name="moon" class="w-5 h-5 dark:hidden" />
+      </button>
     </div>
   </div>
 </header>
 <script>
+  const header = document.querySelector<HTMLElement>("#site-header");
+  if (header) {
+    const updateHeaderHeight = () =>
+      document.documentElement.style.setProperty(
+        "--site-header-height",
+        `${Math.ceil(header.getBoundingClientRect().height)}px`,
+      );
+    updateHeaderHeight();
+    new ResizeObserver(updateHeaderHeight).observe(header);
+  }
   const toggle = document.getElementById("theme-toggle");
   function updateThemeLabel() {
     const dark = document.documentElement.classList.contains("dark");

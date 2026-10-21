@@ -11,7 +11,7 @@ The site has two views with their own summaries, section order, and downloads:
 - **[Engineering](https://mhtcode.github.io/)** leads with cloud infrastructure, DevOps, MLOps, applied AI projects, skills, and certifications. It includes my engineering resume.
 - **[Academic](https://mhtcode.github.io/academic/)** leads with research, education, teaching, and academic projects. It includes my academic CV.
 
-Both views share the same career and project history, with content arranged for each audience. The site is built with **Astro, TypeScript, and Tailwind CSS**, with light and dark themes, keyboard-accessible sections, and individual detail pages. On phones, a collapsible section drawer replaces the desktop tabs.
+Both routes use the same verified career data, with separate content selections, section names, and priorities. Academic detail pages stay under `/academic/`; engineering pages keep their original URLs. The site is built with **Astro, TypeScript, and Tailwind CSS**, with light and dark themes and keyboard-accessible sections. The pinned header holds the profile links and theme control; on phones, it also opens a section drawer.
 
 My portfolio is the broader picture of my work and interests. I keep resumes separate and tailor them to each role.
 
@@ -48,6 +48,7 @@ npm run preview
 | ----------------------------- | ----------------------------------------------------------- |
 | `src/config.ts`               | Contact links, focused summaries, view order, and downloads |
 | `src/portfolio.ts`            | All portfolio sections, entries, dates, and details         |
+| `src/profiles.ts`             | Route-specific content selection and ordering               |
 | `src/components/`             | Shared header, profile, cards, icons, and footer            |
 | `src/pages/`                  | Homepage and individual resume pages                        |
 | `src/styles/`                 | Theme, colors, and responsive styling                       |
@@ -55,7 +56,7 @@ npm run preview
 | `scripts/check-build.mjs`     | Checks for the generated site                               |
 | `scripts/generate-resumes.py` | Academic CV baseline generator                              |
 
-To update the portfolio, edit an entry in `src/portfolio.ts`. Each entry keeps its own stable `slug`, dates, summary, and details together. Adding or reordering entries also updates the homepage cards and detail pages. Edit `src/config.ts` for the introduction, contact links, or resume download. Keep existing slugs when changing wording so shared links continue to work.
+To update career information, edit an entry in `src/portfolio.ts`. Each entry keeps its own stable `slug`, dates, summary, and details together. In `src/config.ts`, each profile controls its section order, section names, hidden entries, introductions, and download. Add a new section to the relevant profile's `sectionOrder`; keep existing slugs when changing wording so shared links continue to work.
 
 Project work periods come from my records and resumes. GitHub repository creation and commit dates help fill gaps; timeline notes distinguish original project work from later publication or archival dates.
 

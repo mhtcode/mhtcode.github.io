@@ -1,0 +1,132 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Icon from "./Icon.astro";
+import { siteConfig, type ProfileKind } from "../config";
+import type { ResumeSection, ResumeItem } from "../portfolio";
+interface Props {
+  section: ResumeSection;
+  item: ResumeItem;
+  profile: ProfileKind;
+}
+const { section, item, profile } = Astro.props;
+const basePath = profile === "academic" ? "/academic/" : "/";
+---
+
+<Layout
+  title={`${item.title} | ${siteConfig.name}`}
+  description={item.description}
+  activeProfile={profile}
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <nav aria-label="Breadcrumb" class="mb-8">
+      <ol class="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+        <li>
+          <a href={basePath}>Home</a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li>
+          <a href={`${basePath}#${section.slug}`}>{section.name}</a>
+        </li>
+        <li aria-hidden="true">/</li>
+        <li class="text-gray-900 dark:text-white">{item.title}</li>
+      </ol>
+    </nav>
+    <header class="mb-8">
+      <div class="flex flex-col sm:flex-row items-start justify-between gap-4 mb-4">
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
+          {item.title}
+        </h1>
+        {item.start && (
+          <p class="text-sm text-gray-500 dark:text-gray-400 shrink-0">
+            {item.start}
+            {item.end && ` — ${item.end}`}
+          </p>
+        )}
+      </div>
+      {item.organization && (
+        <p class="text-lg font-medium text-primary-600 dark:text-primary-400 mb-4">
+          {item.organization}
+        </p>
+      )}
+      <p class="text-xl text-gray-600 dark:text-gray-300 mb-6">
+        {item.description}
+      </p>
+    </header>
+    <article class="content-area max-w-none">
+      {item.dateNote && (
+        <p class="text-sm text-gray-500 dark:text-gray-400">{item.dateNote}</p>
+      )}
+      {item.paragraphs?.map((paragraph) => (
+        <p>{paragraph}</p>
+      ))}
+      {item.bullets && (
+        <>
+          <h2>
+            {section.slug === "education"
+              ? "Education details"
+              : section.slug === "research"
+                ? "Research details"
+                : section.slug === "projects"
+                  ? "Project details"
+                  : section.slug === "skills"
+                    ? "Background & application"
+                    : "Work & experience"}
+          </h2>
+          <ul class="list-disc">
+            {item.bullets.map((bullet) => (
+              <li>{bullet}</li>
+            ))}
+          </ul>
+        </>
+      )}
+      {item.skills && (
+        <>
+          <h2>Technologies & skills</h2>
+          <ul class="list-disc">
+            {item.skills.map((skill) => (
+              <li>{skill}</li>
+            ))}
+          </ul>
+        </>
+      )}
+      {item.private && (
+        <p>
+          This is a private personal project. Its source code is not publicly
+          available.
+        </p>
+      )}
+      {item.link && (
+        <p>
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-medium"
+          >
+            {item.linkLabel} ↗
+          </a>
+        </p>
+      )}
+    </article>
+    <nav
+      aria-label="Return to portfolio"
+      class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700"
+    >
+      <a
+        href={`${basePath}#${section.slug}`}
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+      >
+        <Icon name="back" class="w-4 h-4 mr-2" />
+        Back to {section.name}
+      </a>
+      <a
+        href={profile === "academic" ? "/" : "/academic/"}
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400"
+      >
+        {profile === "academic"
+          ? "View engineering portfolio"
+          : "View academic portfolio"}
+      </a>
+    </nav>
+  </div>
+</Layout>
