@@ -28,18 +28,84 @@ const sections = orderBySlug(resumeSections, content.sectionOrder).map(
           : section.slug === "experience"
             ? content.experienceOrder
             : [];
-    return { ...section, items: orderBySlug(section.items, order) };
+    return {
+      ...section,
+      items: orderBySlug(section.items, order).filter(
+        (item) => !content.hiddenItems.includes(item.slug),
+      ),
+    };
   },
 );
 ---
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mobile-section-bar" id="mobile-section-bar" hidden>
+    <button
+      type="button"
+      id="section-menu-toggle"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      aria-controls="section-drawer"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="20"
+        height="20"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+      Sections
+    </button>
+    <span id="current-section-name">{sections[0].name}</span>
+  </div>
+  <dialog
+    id="section-drawer"
+    class="section-drawer"
+    aria-labelledby="section-drawer-title"
+  >
+    <div class="section-drawer-header">
+      <h2 id="section-drawer-title">Portfolio sections</h2>
+      <button
+        type="button"
+        id="section-menu-close"
+        aria-label="Close sections menu"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          width="22"
+          height="22"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          aria-hidden="true"
+        >
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+    </div>
+    <nav aria-label="Mobile portfolio sections" class="section-drawer-nav">
+      {sections.map((section, index) => (
+        <button
+          type="button"
+          data-section={section.slug}
+          aria-controls={`tab-${section.slug}`}
+          aria-current={index === 0 ? "true" : undefined}
+        >
+          {section.name}
+        </button>
+      ))}
+    </nav>
+  </dialog>
   <Hero profile={profile} />
   <div
     role="tablist"
     aria-label={`${content.label} sections`}
     data-default-section={sections[0].slug}
-    class="flex flex-wrap justify-center mb-8 border-b border-gray-200 dark:border-gray-700"
+    class="desktop-section-tabs flex flex-wrap justify-center mb-8 border-b border-gray-200 dark:border-gray-700"
   >
     {sections.map((section, index) => (
       <button
@@ -99,6 +165,20 @@ const sections = orderBySlug(resumeSections, content.sectionOrder).map(
   const panels = Array.from(
     document.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
   );
+  const mobileButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-section]"),
+  );
+  const drawer = document.querySelector<HTMLDialogElement>("#section-drawer")!;
+  const menuToggle = document.querySelector<HTMLButtonElement>(
+    "#section-menu-toggle",
+  )!;
+  const currentSectionName = document.querySelector<HTMLElement>(
+    "#current-section-name",
+  )!;
+  const mobileBar = document.querySelector<HTMLElement>("#mobile-section-bar")!;
+  const smallScreen = window.matchMedia("(max-width: 767px)");
+  mobileBar.hidden = false;
+
   function selectTab(slug: string, focus = false) {
     const selected =
       buttons.find((button) => button.dataset.tab === slug) || buttons[0];
@@ -112,15 +192,24 @@ const sections = orderBySlug(resumeSections, content.sectionOrder).map(
     panels.forEach((panel) => {
       panel.hidden = panel.id !== selected.getAttribute("aria-controls");
     });
+    mobileButtons.forEach((button) => {
+      if (button.dataset.section === selected.dataset.tab)
+        button.setAttribute("aria-current", "true");
+      else button.removeAttribute("aria-current");
+    });
+    currentSectionName.textContent = selected.textContent?.trim() || "";
     if (focus) selected.focus();
+  }
+  function updateHash(slug: string) {
+    if (location.hash !== `#${slug}`) history.pushState(null, "", `#${slug}`);
   }
   buttons.forEach((button, index) => {
     button.addEventListener("click", () => {
       selectTab(button.dataset.tab!);
-      if (location.hash !== `#${button.dataset.tab}`)
-        history.pushState(null, "", `#${button.dataset.tab}`);
+      updateHash(button.dataset.tab!);
     });
     button.addEventListener("keydown", (event) => {
+      if (event.altKey || event.ctrlKey || event.metaKey) return;
       let next = index;
       if (event.key === "ArrowRight") next = (index + 1) % buttons.length;
       else if (event.key === "ArrowLeft")
@@ -131,8 +220,59 @@ const sections = orderBySlug(resumeSections, content.sectionOrder).map(
       event.preventDefault();
       const slug = buttons[next].dataset.tab!;
       selectTab(slug, true);
-      history.pushState(null, "", `#${slug}`);
+      updateHash(slug);
     });
+  });
+  menuToggle.addEventListener("click", () => {
+    if (!smallScreen.matches || drawer.open) return;
+    drawer.showModal();
+    document.documentElement.classList.add("section-menu-open");
+    menuToggle.setAttribute("aria-expanded", "true");
+    mobileButtons
+      .find((button) => button.getAttribute("aria-current") === "true")
+      ?.focus();
+  });
+  document
+    .querySelector("#section-menu-close")
+    ?.addEventListener("click", () => drawer.close());
+  drawer.addEventListener("close", () => {
+    document.documentElement.classList.remove("section-menu-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+  });
+  drawer.addEventListener("click", (event) => {
+    if (event.target !== drawer) return;
+    const bounds = drawer.getBoundingClientRect();
+    if (
+      event.clientX < bounds.left ||
+      event.clientX > bounds.right ||
+      event.clientY < bounds.top ||
+      event.clientY > bounds.bottom
+    )
+      drawer.close();
+  });
+  mobileButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const slug = button.dataset.section!;
+      selectTab(slug);
+      updateHash(slug);
+      drawer.close();
+      const panel = document.getElementById(`tab-${slug}`);
+      panel?.focus({ preventScroll: true });
+      panel?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "instant"
+          : "smooth",
+        block: "start",
+      });
+    });
+  });
+  smallScreen.addEventListener("change", () => {
+    if (!smallScreen.matches && drawer.open) {
+      drawer.close();
+      buttons
+        .find((button) => button.getAttribute("aria-selected") === "true")
+        ?.focus();
+    }
   });
   const readHash = () =>
     selectTab(

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { resumeSections } from "../src/portfolio.ts";
+import { portfolioProfiles } from "../src/config.ts";
 
 const html = readFileSync("dist/index.html", "utf8");
 assert.ok(
@@ -9,7 +10,18 @@ assert.ok(
   "A separate academic portfolio must be generated",
 );
 const academic = readFileSync("dist/academic/index.html", "utf8");
-assert.match(html, /Interested in Cloud, DevOps &amp; MLOps Engineering/);
+assert.match(html, /Cloud, DevOps &amp; MLOps Engineer<\/p>/);
+assert.match(academic, /Cloud Computing &amp; Applied AI Research/);
+assert.match(html, />About me<\/h2>/);
+assert.doesNotMatch(
+  academic,
+  /href="\/research\/research-interests\/" class="resume-card/,
+);
+for (const content of [html, academic]) {
+  assert.match(content, /id="section-menu-toggle"/);
+  assert.match(content, /<dialog[^>]+id="section-drawer"/);
+  assert.match(content, /aria-label="Close sections menu"/);
+}
 assert.match(html, /data-default-section="experience"/);
 assert.match(academic, /data-default-section="research"/);
 assert.match(academic, /Masih_Tanoursaz_Academic_CV\.pdf/);
@@ -125,8 +137,16 @@ const academicRoutes = [
 ].map((match) => match[1]);
 assert.deepEqual(
   new Set(academicRoutes),
-  new Set(detailRoutes),
-  "Both views must retain the full shared history",
+  new Set(
+    resumeSections.flatMap((section) =>
+      section.items
+        .filter(
+          (item) => !portfolioProfiles.academic.hiddenItems.includes(item.slug),
+        )
+        .map((item) => `/${section.slug}/${item.slug}/`),
+    ),
+  ),
+  "Academic view must show the intended entries without the duplicate interests card",
 );
 assert.equal(
   detailRoutes.length,

@@ -11,7 +11,7 @@ The site has two views with their own summaries, section order, and downloads:
 - **[Engineering](https://mhtcode.github.io/)** leads with cloud infrastructure, DevOps, MLOps, applied AI projects, skills, and certifications. It includes my engineering resume.
 - **[Academic](https://mhtcode.github.io/academic/)** leads with research, education, teaching, and academic projects. It includes my academic CV.
 
-Both views share the same career and project history. The site is built with **Astro, TypeScript, and Tailwind CSS**, with light and dark themes, keyboard-accessible sections, and individual detail pages.
+Both views share the same career and project history, with content arranged for each audience. The site is built with **Astro, TypeScript, and Tailwind CSS**, with light and dark themes, keyboard-accessible sections, and individual detail pages. On phones, a collapsible section drawer replaces the desktop tabs.
 
 My portfolio is the broader picture of my work and interests. I keep resumes separate and tailor them to each role.
 

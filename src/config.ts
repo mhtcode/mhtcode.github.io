@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Masih Tanoursaz",
   title: "Cloud, DevOps & MLOps",
-  subtitle: "Interested in Cloud, DevOps & MLOps Engineering",
+  subtitle: "Cloud, DevOps & MLOps Engineer",
   description:
     "Masih Tanoursaz — Computer Engineering graduate in Toronto, focused on cloud computing, DevOps, MLOps, and applied AI solutions. Explore my engineering work and academic research.",
   url: "https://mhtcode.github.io/",
@@ -22,6 +22,8 @@ export const portfolioProfiles = {
   engineering: {
     label: "Engineering portfolio",
     title: "Cloud, DevOps & MLOps Engineering",
+    subtitle: "Cloud, DevOps & MLOps Engineer",
+    hiddenItems: [] as string[],
     description: siteConfig.description,
     summary: siteConfig.aboutMe,
     resume: siteConfig.resume,
@@ -67,6 +69,8 @@ export const portfolioProfiles = {
   academic: {
     label: "Research & academic portfolio",
     title: "Cloud Computing & Intelligent Systems Research",
+    subtitle: "Cloud Computing & Applied AI Research",
+    hiddenItems: ["research-interests"],
     description:
       "Masih Tanoursaz — research in sustainable cloud computing, LLM and reinforcement learning agents, infrastructure optimization, and applied AI, with teaching and academic project experience.",
     summary:

@@ -24,9 +24,7 @@ const content = portfolioProfiles[profile];
       <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">
         {siteConfig.name}
       </h1>
-      <p class="text-xl text-gray-600 dark:text-gray-300">
-        {siteConfig.subtitle}
-      </p>
+      <p class="text-xl text-gray-600 dark:text-gray-300">{content.subtitle}</p>
       <p class="text-base text-gray-500 dark:text-gray-400 mt-2">
         {siteConfig.location}
       </p>
@@ -67,11 +65,13 @@ const content = portfolioProfiles[profile];
       {content.resumeLabel}
     </a>
   </div>
-  <p class="mt-6 text-sm font-semibold text-primary-600 dark:text-primary-400">
-    {content.label}
-  </p>
+  {profile === "engineering" && (
+    <h2 class="mt-6 text-sm font-semibold text-primary-600 dark:text-primary-400">
+      About me
+    </h2>
+  )}
   {"researchInterests" in content ? (
-    <div class="max-w-3xl mx-auto mt-3 text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+    <div class="max-w-3xl mx-auto mt-6 text-base text-gray-600 dark:text-gray-300 leading-relaxed">
       <h2 class="font-semibold mb-2">Research interests</h2>
       <ul
         aria-label="Research interests"
