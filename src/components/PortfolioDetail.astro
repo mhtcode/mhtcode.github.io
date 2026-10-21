@@ -70,7 +70,9 @@ const basePath = profile === "academic" ? "/academic/" : "/";
                   ? "Project details"
                   : section.slug === "skills"
                     ? "Background & application"
-                    : "Work & experience"}
+                    : section.slug === "teaching-assistant"
+                      ? "Teaching responsibilities"
+                      : "Work & experience"}
           </h2>
           <ul class="list-disc">
             {item.bullets.map((bullet) => (

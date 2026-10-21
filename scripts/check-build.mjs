@@ -194,6 +194,7 @@ assert.equal(
   pages.length,
   resumeSections.reduce((count, section) => count + section.items.length, 0) +
     academicRoutes.length +
+    1 + // Original academic teaching overview remains available.
     2,
   "Every portfolio entry must produce a detail page",
 );

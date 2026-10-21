@@ -88,6 +88,11 @@ const sections = getProfileSections(profile);
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
           {section.name}
         </h2>
+        {section.description && (
+          <p class="max-w-3xl text-gray-600 dark:text-gray-300">
+            {section.description}
+          </p>
+        )}
       </div>
       <div class="space-y-6">
         {section.items.map((item) => (

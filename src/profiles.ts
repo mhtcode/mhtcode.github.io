@@ -22,7 +22,9 @@ export function getProfileSections(profile: ProfileKind) {
           ? content.projectOrder
           : section.slug === "experience"
             ? content.experienceOrder
-            : [];
+            : section.slug === "teaching-assistant"
+              ? content.teachingOrder
+              : [];
     return {
       ...section,
       name:

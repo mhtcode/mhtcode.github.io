@@ -15,6 +15,8 @@ Both routes use the same verified career data, with separate content selections,
 
 My portfolio is the broader picture of my work and interests. I keep resumes separate and tailor them to each role.
 
+Teaching has a separate card and detail page for each course, with responsibilities, tools, and context beyond the short resume summary. The section gives the overall teaching period; individual course dates are included only when available. Both profiles include my volunteer work.
+
 ## Run locally
 
 Requires Node.js 24.

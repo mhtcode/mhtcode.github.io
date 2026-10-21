@@ -1,13 +1,27 @@
 ---
 import PortfolioDetail from "../../../components/PortfolioDetail.astro";
 import { getProfileSections } from "../../../profiles";
+import { resumeSections } from "../../../portfolio";
 export function getStaticPaths() {
-  return getProfileSections("academic").flatMap((section) =>
+  const sections = getProfileSections("academic");
+  const paths = sections.flatMap((section) =>
     section.items.map((item) => ({
       params: { category: section.slug, slug: item.slug },
       props: { section, item },
     })),
   );
+  // Keep the original teaching overview URL available for existing links.
+  const teaching = sections.find(
+    (section) => section.slug === "teaching-assistant",
+  )!;
+  const overview = resumeSections
+    .find((section) => section.slug === teaching.slug)!
+    .items.find((item) => item.slug === "computer-engineering-ta")!;
+  paths.push({
+    params: { category: teaching.slug, slug: overview.slug },
+    props: { section: teaching, item: overview },
+  });
+  return paths;
 }
 const { section, item } = Astro.props;
 ---

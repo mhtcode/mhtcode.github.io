@@ -17,6 +17,7 @@ export interface ResumeItem {
 export interface ResumeSection {
   slug: string;
   name: string;
+  description?: string;
   items: ResumeItem[];
 }
 
@@ -395,21 +396,19 @@ export const resumeSections: ResumeSection[] = [
         slug: "aws-cloud-practitioner",
         title: "AWS Certified Cloud Practitioner",
         organization: "Amazon Web Services",
-        description:
-          "CLF-C02 · Earned Oct 2026. Verify the credential on Credly.",
+        description: "CLF-C02 · Earned Oct 2026.",
         start: "Oct 2026",
         link: "https://www.credly.com/badges/4cbccdce-76b7-45ca-bf87-5aa414114d19/public_url",
-        linkLabel: "Verify credential on Credly",
+        linkLabel: "View credential",
       },
       {
         slug: "aws-ai-practitioner",
         title: "AWS Certified AI Practitioner",
         organization: "Amazon Web Services",
-        description:
-          "AIF-C01 · Earned Sep 2026. Verify the credential on Credly.",
+        description: "AIF-C01 · Earned Sep 2026.",
         start: "Sep 2026",
         link: "https://www.credly.com/badges/9974d104-07b9-4674-84ac-056d155222c0/public_url",
-        linkLabel: "Verify credential on Credly",
+        linkLabel: "View credential",
       },
     ],
   },
@@ -504,7 +503,9 @@ export const resumeSections: ResumeSection[] = [
   },
   {
     slug: "teaching-assistant",
-    name: "Teaching Assistant",
+    name: "Teaching",
+    description:
+      "Teaching Assistant at Isfahan University of Technology, Mar 2024–Jan 2026. My work covered course coordination, laboratory instruction, project review, grading, and student mentoring across the courses below.",
     items: [
       {
         slug: "computer-engineering-ta",
@@ -525,11 +526,170 @@ export const resumeSections: ResumeSection[] = [
           "Reviewed assignments and projects, answered technical questions, mentored students, and assisted with grading and course organization.",
         ],
       },
+      {
+        slug: "scientific-and-technical-presentation",
+        title: "Scientific and Technical Presentation",
+        organization:
+          "Head Teaching Assistant · Isfahan University of Technology",
+        description:
+          "Coordinated course activities and helped students communicate technical work through written reports and presentations.",
+        paragraphs: [
+          "As head teaching assistant, I helped organize the course workflow and coordinate student activities. My work combined reviewing technical documents with evaluating presentations and supporting students as they explained their ideas.",
+          "This course connected technical understanding with clear communication: organizing a report, presenting the main problem and approach, and explaining results to an audience.",
+        ],
+        bullets: [
+          "Helped coordinate course activities and student presentation workflows.",
+          "Reviewed technical documents and supported students with their written work.",
+          "Evaluated presentations and gave feedback on how students communicated technical ideas.",
+          "Answered questions and helped students prepare course submissions.",
+        ],
+        skills: [
+          "Technical writing",
+          "Presentation",
+          "Course coordination",
+          "Student mentoring",
+        ],
+      },
+      {
+        slug: "it-project-management",
+        title: "IT Project Management",
+        organization: "Teaching Assistant · Isfahan University of Technology",
+        description:
+          "Supported student projects, planning documents, scheduling, risk analysis, and technical reports under Dr. Hoda Safaeipour.",
+        paragraphs: [
+          "I assisted Dr. Hoda Safaeipour with course activities and student project evaluation. The work involved both the technical content of student projects and the documentation used to plan, explain, and assess them.",
+          "My focus was helping students make their project work understandable through clear plans, schedules, risk analysis, and reports. I also supported the course workflow and answered questions about assignments and submissions.",
+        ],
+        bullets: [
+          "Supported course activities related to project planning, scheduling, and risk analysis.",
+          "Reviewed project documentation and technical reports as part of student project evaluation.",
+          "Helped students organize project materials and explain their work clearly.",
+          "Assisted with assignments, grading, and course coordination.",
+        ],
+        skills: [
+          "Project planning",
+          "Scheduling",
+          "Risk analysis",
+          "Documentation",
+          "Project review",
+        ],
+      },
+      {
+        slug: "computer-networks",
+        title: "Computer Networks",
+        organization: "Teaching Assistant · Isfahan University of Technology",
+        description:
+          "Helped students understand networking concepts, work through assignments, and connect theory with practical network behavior.",
+        paragraphs: [
+          "I supported the Computer Networks course through assignment review, technical questions, mentoring, and grading. My teaching work also extended to the separate networking laboratory, where students applied networking concepts to configuration and troubleshooting.",
+        ],
+        bullets: [
+          "Answered student questions about networking concepts and course assignments.",
+          "Reviewed assignments and projects and assisted with grading and course materials.",
+          "Helped students relate network concepts to connectivity and troubleshooting problems.",
+        ],
+        skills: [
+          "TCP/IP",
+          "Subnetting",
+          "Routing",
+          "Networking concepts",
+          "Technical troubleshooting",
+        ],
+      },
+      {
+        slug: "computer-networks-laboratory",
+        title: "Computer Networks Laboratory",
+        organization: "Teaching Assistant · Isfahan University of Technology",
+        description:
+          "Guided hands-on work with Cisco routers and switches, VLANs, routing, connectivity tests, and network fault diagnosis.",
+        paragraphs: [
+          "In laboratory sessions, I worked directly with students as they configured networks and investigated why devices could or could not communicate. This complemented my support for the Computer Networks course with practical configuration and troubleshooting.",
+          "The lab work covered TCP/IP, subnetting, routing, switching, and VLANs. I helped students connect these concepts to Cisco configurations and use connectivity tests to narrow down network faults.",
+        ],
+        bullets: [
+          "Helped students configure Cisco routers and switches during laboratory exercises.",
+          "Guided VLAN configuration, routing, switching, and subnetting tasks.",
+          "Supported connectivity testing and fault isolation when network setups did not behave as expected.",
+          "Reviewed lab assignments and projects and assisted with evaluation.",
+        ],
+        skills: [
+          "Cisco",
+          "VLANs",
+          "Routing",
+          "Switching",
+          "Subnetting",
+          "Fault isolation",
+        ],
+      },
+      {
+        slug: "fundamentals-of-information-technology",
+        title: "Fundamentals of Information Technology",
+        organization: "Teaching Assistant · Isfahan University of Technology",
+        description:
+          "Supported students with IT concepts, assignments, course materials, and academic guidance.",
+        paragraphs: [
+          "I helped students work through the course material and assignments, answered questions, and supported course activities. The role required explaining foundational ideas clearly and helping students build confidence with technical material.",
+        ],
+        bullets: [
+          "Answered questions and helped students understand the IT concepts covered in class.",
+          "Supported assignments, course materials, and student academic guidance.",
+          "Assisted with reviewing student work and maintaining the course workflow.",
+        ],
+        skills: [
+          "IT fundamentals",
+          "Student mentoring",
+          "Course materials",
+          "Technical communication",
+        ],
+      },
+      {
+        slug: "microprocessor",
+        title: "Microprocessor",
+        organization: "Teaching Assistant · Isfahan University of Technology",
+        description:
+          "Supported embedded-system exercises, AVR ATmega32 programming, and simulation work with Proteus.",
+        paragraphs: [
+          "I assisted students with microprocessor coursework, programming exercises, and technical troubleshooting. My work involved AVR ATmega32 and Proteus, combining embedded-system concepts with practical programming and simulation.",
+        ],
+        bullets: [
+          "Helped students with AVR ATmega32 programming and embedded-system concepts.",
+          "Supported simulation exercises in Proteus and helped students investigate problems in their work.",
+          "Reviewed assignments and projects and assisted with grading and technical questions.",
+        ],
+        skills: [
+          "AVR ATmega32",
+          "Proteus",
+          "Embedded systems",
+          "Programming",
+          "Troubleshooting",
+        ],
+      },
+      {
+        slug: "digital-systems-design-laboratory",
+        title: "Digital Systems Design Laboratory",
+        organization: "Teaching Assistant · Isfahan University of Technology",
+        description:
+          "Helped students with digital circuit concepts, laboratory exercises, project work, and technical troubleshooting.",
+        paragraphs: [
+          "I supported laboratory instruction and student projects in digital systems design. The work involved helping students understand circuit-design concepts, work through practical exercises, and explain their project results.",
+        ],
+        bullets: [
+          "Assisted with digital circuit concepts and laboratory exercises.",
+          "Helped students troubleshoot problems and work through technical questions.",
+          "Supported project review, grading, and student mentoring.",
+        ],
+        skills: [
+          "Digital systems",
+          "Circuit design",
+          "Laboratory instruction",
+          "Project review",
+        ],
+      },
     ],
   },
   {
     slug: "community",
-    name: "Community",
+    name: "Volunteer",
     items: [
       {
         slug: "iut-cessa",
