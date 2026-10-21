@@ -31,7 +31,10 @@ const canonical = new URL(Astro.url.pathname, siteConfig.url).href;
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={`${siteConfig.url}images/profile.jpg`} />
+    <meta
+      property="og:image"
+      content={new URL(siteConfig.image, siteConfig.url).href}
+    />
     <meta name="twitter:card" content="summary" />
     <script is:inline>
       try {

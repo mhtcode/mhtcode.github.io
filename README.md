@@ -53,20 +53,20 @@ npm run preview
 | `src/styles/`                 | Theme, colors, and responsive styling                       |
 | `public/`                     | Resume PDF, profile photo, and static assets                |
 | `scripts/check-build.mjs`     | Checks for the generated site                               |
-| `scripts/generate-resumes.py` | Separate engineering and academic PDF baselines             |
+| `scripts/generate-resumes.py` | Academic CV baseline generator                              |
 
 To update the portfolio, edit an entry in `src/portfolio.ts`. Each entry keeps its own stable `slug`, dates, summary, and details together. Adding or reordering entries also updates the homepage cards and detail pages. Edit `src/config.ts` for the introduction, contact links, or resume download. Keep existing slugs when changing wording so shared links continue to work.
 
 Project work periods come from my records and resumes. GitHub repository creation and commit dates help fill gaps; timeline notes distinguish original project work from later publication or archival dates.
 
-The two PDFs are separate baselines that I can tailor for individual applications. To regenerate them from the shared content, install Python 3 with ReportLab, then run:
+The engineering download is my uploaded resume PDF, preserved as supplied. I replace it directly when I have a new version. The academic CV can be regenerated from the shared content with Python 3 and ReportLab:
 
 ```sh
 python -m pip install reportlab
 npm run resumes
 ```
 
-The PDFs are committed files; the deployment workflow publishes the checked-in versions. I can also replace either PDF or change a view's download link in `src/config.ts` without changing the other view.
+The generator updates only the academic CV and leaves my uploaded engineering resume untouched. Both PDFs are committed files; the deployment workflow publishes the checked-in versions. I can replace either PDF or change a view's download link in `src/config.ts` independently.
 
 ## Deployment
 

@@ -1,4 +1,4 @@
-"""Generate separate engineering and academic PDFs from the portfolio content.
+"""Generate the academic CV from portfolio content; preserve the uploaded engineering resume.
 
 Run from the repository with Python 3 and reportlab installed.
 """
@@ -9,7 +9,6 @@ import subprocess
 from xml.sax.saxutils import escape
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import (
@@ -107,36 +106,8 @@ def build(profile, story, filename):
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
     print(path)
 
-engineering = []
-header(engineering, "engineering")
-heading(engineering, "Profile")
-engineering.append(para(data["portfolioProfiles"]["engineering"]["summary"]))
-heading(engineering, "Technical Skills")
-skill_lines(engineering, ["cloud-and-delivery", "mlops", "observability", "networking", "programming-and-databases"])
-heading(engineering, "Engineering Experience")
-entry(engineering, item("experience", "cloud-devops-mlops-home-lab"))
-entry(engineering, item("experience", "devops-intern"), item("experience", "devops-intern")["bullets"][:4])
-heading(engineering, "Certifications")
-for cert in sections["certifications"]["items"]:
-    engineering.append(para(f'<link href="{cert["link"]}" color="#075a9c"><b>{text(cert["title"])}</b></link> | {text(cert["start"])}', markup=True))
-engineering.append(PageBreak())
-header(engineering, "engineering", True)
-heading(engineering, "Selected Projects")
-for slug, selected in [
-    ("manisa", [0, 1, 2]),
-    ("local-ai-inference", [0, 2]),
-    ("career", [1, 2]),
-    ("duocardsdict", [0, 1, 2]),
-    ("dockerized-secrets-service", [0, 2]),
-]:
-    project = item("projects", slug)
-    entry(engineering, project, [project["bullets"][index] for index in selected])
-heading(engineering, "Education & Teaching")
 education = item("education", "computer-engineering")
-entry(engineering, education, ["GPA: 89/100. Coursework in networks, operating systems, databases, software engineering, and IT project management."])
 ta = item("teaching-assistant", "computer-engineering-ta")
-entry(engineering, ta, ["Supported networking, IT management, technical presentation, and embedded-systems courses; guided Cisco labs and reviewed student assignments and projects."])
-build("engineering", engineering, "Masih_Tanoursaz_Resume_DevOps.pdf")
 
 academic = []
 header(academic, "academic")
