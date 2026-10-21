@@ -1,0 +1,14 @@
+---
+import Layout from "../layouts/Layout.astro";
+import PortfolioOverview from "../components/PortfolioOverview.astro";
+import { siteConfig, portfolioProfiles } from "../config";
+const profile = portfolioProfiles.academic;
+---
+
+<Layout
+  title={`${siteConfig.name} — ${profile.title}`}
+  description={profile.description}
+  activeProfile="academic"
+>
+  <PortfolioOverview profile="academic" />
+</Layout>

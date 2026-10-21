@@ -54,6 +54,9 @@ const { section, item } = Astro.props;
       </p>
     </header>
     <article class="content-area max-w-none">
+      {item.dateNote && (
+        <p class="text-sm text-gray-500 dark:text-gray-400">{item.dateNote}</p>
+      )}
       {item.paragraphs?.map((paragraph) => (
         <p>{paragraph}</p>
       ))}
@@ -116,6 +119,12 @@ const { section, item } = Astro.props;
       >
         <Icon name="back" class="w-4 h-4 mr-2" />
         Back to {section.name}
+      </a>
+      <a
+        href={`/academic/#${section.slug}`}
+        class="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400"
+      >
+        {section.name} in the academic portfolio
       </a>
     </nav>
   </div>

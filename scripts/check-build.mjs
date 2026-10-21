@@ -1,8 +1,69 @@
 import assert from "node:assert/strict";
 import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
+import { resumeSections } from "../src/portfolio.ts";
 
 const html = readFileSync("dist/index.html", "utf8");
+assert.ok(
+  existsSync("dist/academic/index.html"),
+  "A separate academic portfolio must be generated",
+);
+const academic = readFileSync("dist/academic/index.html", "utf8");
+assert.match(html, /Interested in Cloud, DevOps &amp; MLOps Engineering/);
+assert.match(html, /data-default-section="experience"/);
+assert.match(academic, /data-default-section="research"/);
+assert.match(academic, /Masih_Tanoursaz_Academic_CV\.pdf/);
+assert.doesNotMatch(academic, /href="\/Masih_Tanoursaz_Resume_DevOps\.pdf"/);
+assert.match(html, /href="\/academic\/"/);
+assert.match(academic, /href="\/"/);
+for (const [name, content] of [
+  ["Engineering", html],
+  ["Academic", academic],
+]) {
+  const identifiers = [...content.matchAll(/\bid="([^"]+)"/g)].map(
+    (match) => match[1],
+  );
+  assert.equal(
+    identifiers.length,
+    new Set(identifiers).size,
+    `${name}: unique IDs`,
+  );
+  const categories = [...content.matchAll(/data-tab="([^"]+)"/g)].map(
+    (match) => match[1],
+  );
+  assert.equal(
+    new Set(categories).size,
+    categories.length,
+    `${name}: unique categories`,
+  );
+  for (const category of categories) {
+    assert.ok(
+      content.includes(`id="tab-${category}"`),
+      `${name}: missing ${category} panel`,
+    );
+    assert.ok(
+      content.includes(`aria-controls="tab-${category}"`),
+      `${name}: missing panel relationship`,
+    );
+  }
+}
+for (const project of resumeSections.find(
+  (section) => section.slug === "projects",
+).items) {
+  assert.ok(project.start, `Project date required: ${project.title}`);
+  assert.ok(
+    readFileSync(`dist/projects/${project.slug}/index.html`, "utf8").includes(
+      project.start,
+    ),
+    `Date must appear on ${project.title}`,
+  );
+}
+assert.ok(
+  readFileSync("dist/Masih_Tanoursaz_Academic_CV.pdf")
+    .subarray(0, 5)
+    .equals(Buffer.from("%PDF-")),
+  "Academic CV must be a valid PDF",
+);
 assert.match(html, /<title>Masih Tanoursaz/);
 assert.match(html, /tanoursazmasih@gmail\.com/);
 assert.match(html, /role="tablist"/, "Resume category tabs must be present");
@@ -59,6 +120,19 @@ const pages = findPages(resolve("dist"));
 const detailRoutes = [
   ...html.matchAll(/<a href="([^"]+)" class="resume-card /g),
 ].map((match) => match[1]);
+const academicRoutes = [
+  ...academic.matchAll(/<a href="([^"]+)" class="resume-card /g),
+].map((match) => match[1]);
+assert.deepEqual(
+  new Set(academicRoutes),
+  new Set(detailRoutes),
+  "Both views must retain the full shared history",
+);
+assert.equal(
+  detailRoutes.length,
+  resumeSections.reduce((count, section) => count + section.items.length, 0),
+  "Every shared entry must appear in the portfolio",
+);
 assert.equal(
   new Set(detailRoutes).size,
   detailRoutes.length,
@@ -66,7 +140,7 @@ assert.equal(
 );
 assert.equal(
   pages.length,
-  detailRoutes.length + 1,
+  detailRoutes.length + 2,
   "Every portfolio entry must produce a detail page",
 );
 for (const page of pages) {

@@ -12,6 +12,7 @@ export interface ResumeItem {
   link?: string;
   linkLabel?: string;
   private?: boolean;
+  dateNote?: string;
 }
 export interface ResumeSection {
   slug: string;
@@ -137,6 +138,8 @@ export const resumeSections: ResumeSection[] = [
           "A personal knowledge base and career workspace for tailoring application materials and tracking job and educational applications.",
         start: "Oct 2026",
         end: "Present",
+        dateNote:
+          "Project started Oct 2026; the private repository was created on Oct 1, 2026.",
         bullets: [
           "Organized career information in a reusable personal knowledge base.",
           "Used embeddings and Retrieval-Augmented Generation (RAG) to support resumes and cover letters tailored to different roles.",
@@ -160,6 +163,8 @@ export const resumeSections: ResumeSection[] = [
           "A bilingual platform for a self-employed service provider to manage customers, services, appointments, payments, working hours, and business reporting.",
         start: "Sep 2026",
         end: "Present",
+        dateNote:
+          "Project started Sep 2026; the public GitHub repository was created on Sep 1, 2026.",
         bullets: [
           "Worked on an application that brings day-to-day service business operations and database-derived reports into one place.",
           "Set up GitHub Actions to automate application delivery and keep deployment steps consistent.",
@@ -188,6 +193,8 @@ export const resumeSections: ResumeSection[] = [
           "A companion to DuoCards that collects vocabulary in one place and supports dictation practice and semantic exploration of words.",
         start: "May 2026",
         end: "Sep 2026",
+        dateNote:
+          "Development period: May–Sep 2026. Published to GitHub on Oct 20, 2026; publication is later than the original project work.",
         bullets: [
           "Built a vocabulary workspace around words collected from DuoCards.",
           "Used vector embeddings to represent words and explore their relationships.",
@@ -209,6 +216,9 @@ export const resumeSections: ResumeSection[] = [
         organization: "Personal AI / MLOps projects",
         description:
           "Experiments serving language and vision models locally and connecting their inference endpoints to other applications.",
+        start: "Sep 2026",
+        end: "Present",
+        dateNote: "Part of my ongoing home lab, started Sep 2026.",
         bullets: [
           "Served Qwen3:8B through vLLM and connected the model endpoint to personal projects.",
           "Explored batched requests and local inference workflows.",
@@ -233,6 +243,8 @@ export const resumeSections: ResumeSection[] = [
           "A SQL Server project separating airline reservation transactions from analytical reporting, with Python and SQL data pipelines and Power BI reports.",
         start: "Jun 2025",
         end: "Aug 2025",
+        dateNote:
+          "Project work: Jun–Aug 2025. My GitHub repository was created on Jun 29, 2025.",
         bullets: [
           "Designed transactional, staging, and dimensional warehouse layers for flight reservation data.",
           "Modeled relationships and organized facts and dimensions for analytical queries.",
@@ -258,6 +270,8 @@ export const resumeSections: ResumeSection[] = [
           "A Go application with Vault and in-memory storage backends for writing and reading application secrets.",
         start: "Jun 2024",
         end: "Oct 2024",
+        dateNote:
+          "Developed during my 2024 internship; the public repository was created on Aug 7, 2024.",
         bullets: [
           "Kept secret-storage implementations separate from application logic so either backend could be used.",
           "Integrated HashiCorp Vault and an in-memory store.",
@@ -278,6 +292,11 @@ export const resumeSections: ResumeSection[] = [
         organization: "University project · C++ / Qt",
         description:
           "A desktop social media application built in C++ with Qt, exploring object-oriented design and graphical user interfaces.",
+        start: "Spring 2022",
+        dateNote:
+          "Spring 2022 Advanced Programming coursework (Term 2, 1400–1401); the application is preserved in my IUT GitHub archive, created in Jun 2024.",
+        link: "https://github.com/mhtcode/IUT/tree/main/Term2_Spring_Term_1400%2C1401/Advanced%20Programming/Projects",
+        linkLabel: "Browse the course project archive on GitHub",
         bullets: [
           "Developed a desktop application with the Qt framework.",
           "Practiced object-oriented design, event-driven programming, user interaction, and modular application structure.",
@@ -290,6 +309,9 @@ export const resumeSections: ResumeSection[] = [
         organization: "Backend & observability practice",
         description:
           "A small Go HTTP service for dice rolls, instrumented with OpenTelemetry to explore tracing and service monitoring.",
+        start: "Aug 2024",
+        dateNote:
+          "GitHub repository and commit history date this project to Aug 11, 2024.",
         bullets: [
           "Implemented HTTP routes for handling dice-roll requests.",
           "Added OpenTelemetry instrumentation to observe request handling and service behavior.",
@@ -304,6 +326,10 @@ export const resumeSections: ResumeSection[] = [
         organization: "Computer Engineering coursework",
         description:
           "An archive of university work and smaller programming projects, including C/C++ applications, networking, and embedded-system exercises.",
+        start: "2021",
+        end: "2025",
+        dateNote:
+          "Work from my 2021–2025 degree. The IUT GitHub archive was created on Jun 9, 2024; the separate C and Qt projects were published in 2022.",
         bullets: [
           "Built a simple notepad using Qt and C++ and a C program for hiding GIF data.",
           "Worked with AVR ATmega32 and Proteus through microprocessor and digital-systems coursework and teaching.",

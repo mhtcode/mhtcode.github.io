@@ -1,15 +1,17 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { siteConfig } from "../config";
+import { siteConfig, type ProfileKind } from "../config";
 import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  activeProfile?: ProfileKind;
 }
 const {
   title = `${siteConfig.name} — ${siteConfig.title}`,
   description = siteConfig.description,
+  activeProfile,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, siteConfig.url).href;
 ---
@@ -44,7 +46,7 @@ const canonical = new URL(Astro.url.pathname, siteConfig.url).href;
     <a class="skip-link" href="#main">
       Skip to content
     </a>
-    <Header />
+    <Header activeProfile={activeProfile} />
     <main id="main" class="min-h-screen">
       <slot />
     </main>

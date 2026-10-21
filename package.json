@@ -1,7 +1,7 @@
 {
   "name": "masih-tanoursaz-portfolio",
   "private": true,
-  "description": "My portfolio — software, cloud infrastructure, AI research, data systems, product work, and teaching.",
+  "description": "My engineering and academic portfolios — cloud computing, DevOps, MLOps, and applied AI.",
   "author": "Masih Tanoursaz",
   "license": "MIT",
   "homepage": "https://mhtcode.github.io/",
@@ -15,6 +15,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "check": "npm run build && node scripts/check-build.mjs",
+    "resumes": "python scripts/generate-resumes.py",
     "preview": "astro preview",
     "astro": "astro"
   },

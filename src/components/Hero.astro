@@ -1,6 +1,11 @@
 ---
-import { siteConfig } from "../config";
+import { siteConfig, portfolioProfiles, type ProfileKind } from "../config";
 import Icon from "./Icon.astro";
+interface Props {
+  profile: ProfileKind;
+}
+const { profile } = Astro.props;
+const content = portfolioProfiles[profile];
 ---
 
 <div class="text-center mb-12">
@@ -54,15 +59,18 @@ import Icon from "./Icon.astro";
       GitHub
     </a>
     <a
-      href={siteConfig.resume}
+      href={content.resume}
       download
       class="contact-link flex items-center gap-3 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
     >
       <Icon name="download" />
-      {siteConfig.resumeLabel}
+      {content.resumeLabel}
     </a>
   </div>
-  <p class="max-w-3xl mx-auto mt-6 text-base text-gray-600 dark:text-gray-300 leading-relaxed">
-    {siteConfig.aboutMe}
+  <p class="mt-6 text-sm font-semibold text-primary-600 dark:text-primary-400">
+    {content.label}
+  </p>
+  <p class="max-w-3xl mx-auto mt-3 text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+    {content.summary}
   </p>
 </div>

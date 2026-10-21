@@ -1,9 +1,9 @@
 export const siteConfig = {
   name: "Masih Tanoursaz",
-  title: "Software, Cloud & AI",
-  subtitle: "Computer Engineering · Software, Cloud & AI",
+  title: "Cloud, DevOps & MLOps",
+  subtitle: "Interested in Cloud, DevOps & MLOps Engineering",
   description:
-    "Masih Tanoursaz — Computer Engineering graduate in Toronto. Software development, cloud infrastructure, AI and sustainable computing research, data systems, product work, teaching, and community leadership.",
+    "Masih Tanoursaz — Computer Engineering graduate in Toronto, focused on cloud computing, DevOps, MLOps, and applied AI solutions. Explore my engineering work and academic research.",
   url: "https://mhtcode.github.io/",
   location: "Toronto, Ontario, Canada",
   resume: "/Masih_Tanoursaz_Resume_DevOps.pdf",
@@ -14,5 +14,102 @@ export const siteConfig = {
     github: "https://github.com/mhtcode",
   },
   aboutMe:
-    "I'm a Computer Engineering graduate who likes understanding how systems fit together and turning ideas into useful tools. My work spans software and cloud infrastructure, applied AI, data systems, and sustainable computing research, alongside teaching, product development, and community events.",
+    "I'm a Computer Engineering graduate focused on cloud computing, DevOps, and MLOps. I build and troubleshoot Linux-based services, automate delivery with Docker, Kubernetes, and GitHub Actions, and develop applied AI solutions using local model serving, embeddings, and RAG. My cloud/backend internship and personal infrastructure projects give me hands-on experience connecting applications, infrastructure, and observability.",
 };
+
+export const portfolioProfiles = {
+  engineering: {
+    label: "Engineering portfolio",
+    title: "Cloud, DevOps & MLOps Engineering",
+    description: siteConfig.description,
+    summary: siteConfig.aboutMe,
+    resume: siteConfig.resume,
+    resumeLabel: "Download engineering resume",
+    projectOrder: [
+      "manisa",
+      "local-ai-inference",
+      "career",
+      "duocardsdict",
+      "dockerized-secrets-service",
+      "opentelemetry-dice-service",
+      "flight-reservation-data-warehouse",
+      "pulp-fiction",
+      "academic-programming-projects",
+    ],
+    experienceOrder: [
+      "cloud-devops-mlops-home-lab",
+      "devops-intern",
+      "med-x-product-innovation",
+    ],
+    sectionOrder: [
+      "experience",
+      "projects",
+      "skills",
+      "certifications",
+      "research",
+      "education",
+      "teaching-assistant",
+      "community",
+    ],
+    skillOrder: [
+      "cloud-and-delivery",
+      "mlops",
+      "observability",
+      "networking",
+      "programming-and-databases",
+      "data-and-analytics",
+      "ai-research",
+      "product-and-projects",
+      "teaching-and-communication",
+    ],
+  },
+  academic: {
+    label: "Research & academic portfolio",
+    title: "Cloud Computing & Intelligent Systems Research",
+    description:
+      "Masih Tanoursaz — research in sustainable cloud computing, LLM and reinforcement learning agents, infrastructure optimization, and applied AI, with teaching and academic project experience.",
+    summary:
+      "I'm a Computer Engineering graduate interested in sustainable cloud computing, intelligent resource allocation, and applied AI. My bachelor's research compared reinforcement learning policies with LLM-based control agents in SustainDC, examining energy, carbon, water use, and system behavior. I bring practical cloud and model-serving experience to research, alongside teaching in networking, IT project management, technical communication, and embedded systems.",
+    resume: "/Masih_Tanoursaz_Academic_CV.pdf",
+    resumeLabel: "Download academic CV",
+    projectOrder: [
+      "flight-reservation-data-warehouse",
+      "local-ai-inference",
+      "pulp-fiction",
+      "academic-programming-projects",
+      "career",
+      "manisa",
+      "duocardsdict",
+      "dockerized-secrets-service",
+      "opentelemetry-dice-service",
+    ],
+    experienceOrder: [
+      "cloud-devops-mlops-home-lab",
+      "devops-intern",
+      "med-x-product-innovation",
+    ],
+    sectionOrder: [
+      "research",
+      "education",
+      "teaching-assistant",
+      "projects",
+      "skills",
+      "experience",
+      "community",
+      "certifications",
+    ],
+    skillOrder: [
+      "ai-research",
+      "data-and-analytics",
+      "programming-and-databases",
+      "cloud-and-delivery",
+      "mlops",
+      "networking",
+      "teaching-and-communication",
+      "observability",
+      "product-and-projects",
+    ],
+  },
+};
+
+export type ProfileKind = keyof typeof portfolioProfiles;
