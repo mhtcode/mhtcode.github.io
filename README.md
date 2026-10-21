@@ -17,6 +17,8 @@ My portfolio is the broader picture of my work and interests. I keep resumes sep
 
 Teaching has a separate card and detail page for each course, with responsibilities, tools, and context beyond the short resume summary. The section gives the overall teaching period; individual course dates are included only when available. Both profiles include my volunteer work.
 
+On small screens, scrolling down smoothly reduces the pinned header to the portfolio title and menu icon. Scrolling up restores the profile links and theme control. The transition respects reduced-motion preferences.
+
 ## Run locally
 
 Requires Node.js 24.

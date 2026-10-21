@@ -108,6 +108,77 @@ const portfolioTitle =
       );
     updateHeaderHeight();
     new ResizeObserver(updateHeaderHeight).observe(header);
+
+    const menu = header.querySelector("#section-menu-toggle");
+    const navigation = header.querySelector<HTMLElement>(".header-navigation");
+    const themeControl =
+      header.querySelector<HTMLButtonElement>("#theme-toggle");
+    if (menu && navigation && themeControl) {
+      const mobile = window.matchMedia("(max-width: 767px)");
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+      const drawer =
+        document.querySelector<HTMLDialogElement>("#section-drawer");
+      let compact = false;
+      let lastY = Math.max(0, window.scrollY);
+      let direction = 0;
+      let distance = 0;
+      let settlingUntil = 0;
+      let frame = 0;
+
+      function setCompact(next: boolean) {
+        if (next === compact) return;
+        compact = next;
+        header!.classList.toggle("site-header-compact", compact);
+        navigation!.inert = compact;
+        themeControl!.inert = compact;
+        // Ignore scroll anchoring while the header changes height.
+        settlingUntil = performance.now() + (reducedMotion.matches ? 100 : 320);
+        distance = 0;
+      }
+
+      function updateScroll() {
+        frame = 0;
+        const y = Math.max(0, window.scrollY);
+        const delta = y - lastY;
+        lastY = y;
+        if (!mobile.matches) return;
+        if (y <= 24) {
+          setCompact(false);
+          return;
+        }
+        if (performance.now() < settlingUntil || drawer?.open || !delta) return;
+        const nextDirection = Math.sign(delta);
+        if (nextDirection !== direction) distance = 0;
+        direction = nextDirection;
+        distance += Math.abs(delta);
+        if (distance < 12) return;
+        const focused = document.activeElement;
+        const controlsHaveKeyboardFocus =
+          focused?.matches(":focus-visible") &&
+          (navigation!.contains(focused) || focused === themeControl);
+        if (direction > 0 && y > 96 && !controlsHaveKeyboardFocus) {
+          setCompact(true);
+        } else if (direction < 0) {
+          setCompact(false);
+        }
+      }
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!frame) frame = requestAnimationFrame(updateScroll);
+        },
+        { passive: true },
+      );
+      mobile.addEventListener("change", () => {
+        setCompact(false);
+        lastY = Math.max(0, window.scrollY);
+        direction = 0;
+        distance = 0;
+      });
+    }
   }
   const toggle = document.getElementById("theme-toggle");
   function updateThemeLabel() {

@@ -112,6 +112,7 @@ main {
   .site-header-layout {
     grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
     gap: 0 0.375rem;
+    min-height: 0;
     padding-block: 0.375rem 0;
   }
   .header-brand {
@@ -130,11 +131,38 @@ main {
   .header-theme-toggle {
     grid-column: 3;
     grid-row: 1;
+    transition:
+      opacity 180ms ease,
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
   }
   .header-navigation {
     grid-column: 1 / -1;
     grid-row: 2;
     justify-content: center;
+    min-height: 0;
+    max-height: 2.75rem;
+    overflow: hidden;
+    transition:
+      max-height 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 180ms ease,
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 0s;
+  }
+  .site-header-compact .header-navigation {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-0.5rem);
+    visibility: hidden;
+    pointer-events: none;
+    transition-delay: 0s, 0s, 0s, 280ms;
+  }
+  .site-header-compact .header-theme-toggle {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+    visibility: hidden;
+    pointer-events: none;
+    transition-delay: 0s, 0s, 280ms;
   }
   .profile-navigation {
     gap: 0.75rem;
