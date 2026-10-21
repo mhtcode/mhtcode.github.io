@@ -1,0 +1,62 @@
+---
+import type { ResumeItem } from "../portfolio";
+import Icon from "./Icon.astro";
+interface Props {
+  item: ResumeItem;
+  category: string;
+}
+const { item, category } = Astro.props;
+---
+
+<article class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+  <a href={`/${category}/${item.slug}/`} class="resume-card block">
+    <div class="md:flex">
+      {item.image && (
+        <div class="md:shrink-0">
+          <div class="h-48 w-full md:w-48 bg-gray-200 dark:bg-gray-700 rounded-t-lg md:rounded-l-lg md:rounded-t-none overflow-hidden">
+            <img
+              src={item.image}
+              alt={item.organization || item.title}
+              width="192"
+              height="192"
+              class="w-full h-full object-contain"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      )}
+      <div class="p-6 flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex-1 min-w-0">
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+              {item.title}
+            </h3>
+            {item.organization && (
+              <p class="text-sm font-medium text-primary-600 dark:text-primary-400 mb-2">
+                {item.organization}
+              </p>
+            )}
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+              {item.description}
+            </p>
+          </div>
+          {(item.start || item.end) && (
+            <div class="text-sm text-gray-500 dark:text-gray-400 text-right shrink-0">
+              <div>{item.start}</div>
+              {item.end && <div>{item.end}</div>}
+            </div>
+          )}
+        </div>
+        <div class="flex items-center justify-between gap-4">
+          <span class="text-sm text-gray-500 dark:text-gray-400">
+            Click to view details
+          </span>
+          <span class="flex items-center text-blue-600 dark:text-blue-400 shrink-0">
+            <span class="text-sm font-medium">View Details</span>
+            <Icon name="arrow" class="w-4 h-4 ml-1" />
+          </span>
+        </div>
+      </div>
+    </div>
+  </a>
+</article>

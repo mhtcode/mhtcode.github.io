@@ -1,0 +1,48 @@
+---
+import Icon from "./Icon.astro";
+---
+
+<header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <a
+        href="/"
+        class="text-2xl font-bold text-primary-600 dark:text-primary-400"
+      >
+        Resume
+      </a>
+      <button
+        id="theme-toggle"
+        type="button"
+        aria-label="Switch to dark theme"
+        aria-pressed="false"
+        class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+      >
+        <Icon name="sun" class="w-5 h-5 hidden dark:block" />
+        <Icon name="moon" class="w-5 h-5 dark:hidden" />
+      </button>
+    </div>
+  </div>
+</header>
+<script>
+  const toggle = document.getElementById("theme-toggle");
+  function updateThemeLabel() {
+    const dark = document.documentElement.classList.contains("dark");
+    toggle?.setAttribute(
+      "aria-label",
+      `Switch to ${dark ? "light" : "dark"} theme`,
+    );
+    toggle?.setAttribute("aria-pressed", String(dark));
+  }
+  updateThemeLabel();
+  toggle?.addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+    try {
+      localStorage.setItem(
+        "theme",
+        document.documentElement.classList.contains("dark") ? "dark" : "light",
+      );
+    } catch {}
+    updateThemeLabel();
+  });
+</script>

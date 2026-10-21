@@ -1,0 +1,30 @@
+{
+  "name": "masih-tanoursaz-portfolio",
+  "private": true,
+  "description": "My personal portfolio and resume — DevOps, cloud infrastructure, and MLOps.",
+  "author": "Masih Tanoursaz",
+  "license": "MIT",
+  "homepage": "https://mhtcode.github.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhtcode/mhtcode.github.io.git"
+  },
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "check": "npm run build && node scripts/check-build.mjs",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "astro": "^7.4.2",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.10",
+    "prettier-plugin-astro": "^1.1.1"
+  }
+}

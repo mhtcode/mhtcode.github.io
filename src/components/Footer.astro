@@ -1,0 +1,41 @@
+---
+import { siteConfig } from "../config";
+import Icon from "./Icon.astro";
+---
+
+<footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="text-center text-gray-600 dark:text-gray-400">
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+        <a
+          href={`mailto:${siteConfig.social.email}`}
+          class="contact-link flex items-center gap-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        >
+          <Icon name="email" />
+          {siteConfig.social.email}
+        </a>
+        <a
+          href={siteConfig.social.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-link flex items-center gap-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        >
+          <Icon name="github" />
+          GitHub
+        </a>
+        <a
+          href={siteConfig.social.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-link flex items-center gap-2 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        >
+          <Icon name="linkedin" />
+          LinkedIn
+        </a>
+      </div>
+      <p class="text-sm">
+        © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
