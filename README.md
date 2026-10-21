@@ -1,12 +1,14 @@
 # Masih Tanoursaz
 
-My personal portfolio and resume, hosted at **[mhtcode.github.io](https://mhtcode.github.io/)**.
+My personal portfolio, hosted at **[mhtcode.github.io](https://mhtcode.github.io/)**.
 
 [![Deploy portfolio to GitHub Pages](https://github.com/mhtcode/mhtcode.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/mhtcode/mhtcode.github.io/actions/workflows/deploy.yml)
 
-I'm a Computer Engineering graduate based in Toronto, focused on DevOps, cloud infrastructure, and MLOps. This website brings together my projects, hands-on experience, AWS certifications, education, and community work.
+I'm a Computer Engineering graduate based in Toronto. I work on software, cloud infrastructure, applied AI, and data systems, with interests in sustainable computing research and product development. This website brings together my projects, research, hands-on experience, AWS certifications, teaching, and community work.
 
-The site is built with **Astro, TypeScript, and Tailwind CSS**. It includes light and dark themes, tabbed resume sections, individual detail pages, and a downloadable PDF resume.
+The site is built with **Astro, TypeScript, and Tailwind CSS**. It includes light and dark themes, eight portfolio sections, individual detail pages, and a downloadable DevOps resume.
+
+My portfolio is the broader picture of my work and interests. I keep resumes separate and tailor them to each role.
 
 ## Run locally
 
@@ -37,15 +39,19 @@ npm run preview
 
 ## Content and structure
 
-| Path                      | Purpose                                              |
-| ------------------------- | ---------------------------------------------------- |
-| `src/config.ts`           | Profile, contact links, projects, and career history |
-| `src/portfolio.ts`        | Resume categories and detail-page content            |
-| `src/components/`         | Shared header, profile, cards, icons, and footer     |
-| `src/pages/`              | Homepage and individual resume pages                 |
-| `src/styles/`             | Theme, colors, and responsive styling                |
-| `public/`                 | Resume PDF, profile photo, and static assets         |
-| `scripts/check-build.mjs` | Checks for the generated site                        |
+| Path                      | Purpose                                             |
+| ------------------------- | --------------------------------------------------- |
+| `src/config.ts`           | Profile, contact links, and resume download         |
+| `src/portfolio.ts`        | All portfolio sections, entries, dates, and details |
+| `src/components/`         | Shared header, profile, cards, icons, and footer    |
+| `src/pages/`              | Homepage and individual resume pages                |
+| `src/styles/`             | Theme, colors, and responsive styling               |
+| `public/`                 | Resume PDF, profile photo, and static assets        |
+| `scripts/check-build.mjs` | Checks for the generated site                       |
+
+To update the portfolio, edit an entry in `src/portfolio.ts`. Each entry keeps its own stable `slug`, dates, summary, and details together. Adding or reordering entries also updates the homepage cards and detail pages. Edit `src/config.ts` for the introduction, contact links, or resume download. Keep existing slugs when changing wording so shared links continue to work.
+
+The downloadable resume is independent of the portfolio entries. I can replace that PDF, or point the download to another version, without narrowing the rest of the site to one job.
 
 ## Deployment
 

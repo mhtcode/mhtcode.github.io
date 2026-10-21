@@ -40,7 +40,7 @@ assert.ok(
 );
 assert.match(html, /https:\/\/mhtcode\.github\.io\//);
 const tabs = [...html.matchAll(/data-tab="([^"]+)"/g)].map((match) => match[1]);
-assert.equal(tabs.length, 7, "Seven resume sections");
+assert.ok(tabs.length > 0, "Portfolio sections must be present");
 assert.equal(new Set(tabs).size, tabs.length, "Unique categories");
 for (const tab of tabs) {
   assert.ok(ids.includes(`tab-${tab}`), `Missing panel for ${tab}`);
@@ -56,7 +56,19 @@ function findPages(dir) {
   );
 }
 const pages = findPages(resolve("dist"));
-assert.equal(pages.length, 20, "All resume detail pages must be generated");
+const detailRoutes = [
+  ...html.matchAll(/<a href="([^"]+)" class="resume-card /g),
+].map((match) => match[1]);
+assert.equal(
+  new Set(detailRoutes).size,
+  detailRoutes.length,
+  "Every entry must have a unique detail URL",
+);
+assert.equal(
+  pages.length,
+  detailRoutes.length + 1,
+  "Every portfolio entry must produce a detail page",
+);
 for (const page of pages) {
   const content = readFileSync(page, "utf8");
   assert.equal(
@@ -90,5 +102,5 @@ for (const page of pages) {
   }
 }
 console.log(
-  "Build checks passed: 20 pages, 7 tabs, personal content, local routes, images, metadata, headings, resume PDF.",
+  `Build checks passed: ${pages.length} pages, ${tabs.length} tabs, personal content, local routes, images, metadata, headings, resume PDF.`,
 );

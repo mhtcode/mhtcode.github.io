@@ -62,7 +62,13 @@ const { section, item } = Astro.props;
           <h2>
             {section.slug === "education"
               ? "Education details"
-              : "Work & experience"}
+              : section.slug === "research"
+                ? "Research details"
+                : section.slug === "projects"
+                  ? "Project details"
+                  : section.slug === "skills"
+                    ? "Background & application"
+                    : "Work & experience"}
           </h2>
           <ul class="list-disc">
             {item.bullets.map((bullet) => (
@@ -101,7 +107,7 @@ const { section, item } = Astro.props;
       )}
     </article>
     <nav
-      aria-label="Return to resume"
+      aria-label="Return to portfolio"
       class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700"
     >
       <a
