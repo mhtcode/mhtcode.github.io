@@ -15,7 +15,7 @@ export const siteConfig = {
     github: "https://github.com/mhtcode",
   },
   aboutMe:
-    "I'm a Computer Engineering graduate focused on cloud computing, DevOps, and MLOps. I build and troubleshoot Linux-based services, automate delivery with Docker, Kubernetes, and GitHub Actions, and develop applied AI solutions using local model serving, embeddings, and RAG. My cloud/backend internship and personal infrastructure projects give me hands-on experience connecting applications, infrastructure, and observability.",
+    "I'm a Computer Engineering graduate focused on cloud infrastructure, DevOps, and MLOps. I build and troubleshoot Linux-based services, automate delivery pipelines, and deploy containerized applications and AI models. My experience includes a cloud development internship and independent projects using Docker, Kubernetes, GitHub Actions, and observability tools. I also develop applied AI solutions with local model serving, embeddings, and retrieval-augmented generation, connecting practical software development with reliable infrastructure.",
 };
 
 export const portfolioProfiles = {

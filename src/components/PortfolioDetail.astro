@@ -17,7 +17,7 @@ const basePath = profile === "academic" ? "/academic/" : "/";
   description={item.description}
   activeProfile={profile}
 >
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="portfolio-detail max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <nav aria-label="Breadcrumb" class="mb-8">
       <ol class="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
         <li>
@@ -31,7 +31,7 @@ const basePath = profile === "academic" ? "/academic/" : "/";
         <li class="text-gray-900 dark:text-white">{item.title}</li>
       </ol>
     </nav>
-    <header class="mb-8">
+    <header class="detail-heading mb-8">
       <div class="flex flex-col sm:flex-row items-start justify-between gap-4 mb-4">
         <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
           {item.title}
@@ -120,14 +120,6 @@ const basePath = profile === "academic" ? "/academic/" : "/";
       >
         <Icon name="back" class="w-4 h-4 mr-2" />
         Back to {section.name}
-      </a>
-      <a
-        href={profile === "academic" ? "/" : "/academic/"}
-        class="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-600 dark:text-primary-400"
-      >
-        {profile === "academic"
-          ? "View engineering portfolio"
-          : "View academic portfolio"}
       </a>
     </nav>
   </div>
