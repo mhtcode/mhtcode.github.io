@@ -6,7 +6,7 @@ export const siteConfig = {
     "Masih Tanoursaz — Computer Engineering graduate in Toronto, focused on cloud computing, DevOps, MLOps, and applied AI solutions. Explore my engineering work and academic research.",
   url: "https://mhtcode.github.io/",
   location: "Toronto, Ontario, Canada",
-  image: "/images/profile-graduation.png",
+  image: "/images/profile-closeup.png",
   resume: "/Masih_Tanoursaz_Resume_DevOps.pdf",
   resumeLabel: "DevOps resume",
   social: {
