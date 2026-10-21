@@ -124,31 +124,43 @@ const portfolioTitle =
       let lastY = Math.max(0, window.scrollY);
       let direction = 0;
       let distance = 0;
-      let settlingUntil = 0;
+      let anchorTimer = 0;
       let frame = 0;
 
       function setCompact(next: boolean) {
         if (next === compact) return;
         compact = next;
+        // Prevent the animated height change from moving the page's scroll anchor.
+        // User scrolling stays responsive, including a reversal mid-transition.
+        document.documentElement.classList.add("header-transitioning");
+        window.clearTimeout(anchorTimer);
+        anchorTimer = window.setTimeout(
+          () =>
+            document.documentElement.classList.remove("header-transitioning"),
+          reducedMotion.matches ? 100 : 320,
+        );
         header!.classList.toggle("site-header-compact", compact);
         navigation!.inert = compact;
         themeControl!.inert = compact;
-        // Ignore scroll anchoring while the header changes height.
-        settlingUntil = performance.now() + (reducedMotion.matches ? 100 : 320);
         distance = 0;
       }
 
       function updateScroll() {
         frame = 0;
-        const y = Math.max(0, window.scrollY);
-        const delta = y - lastY;
+        const limit = Math.max(
+          0,
+          document.documentElement.scrollHeight - innerHeight,
+        );
+        const y = Math.max(0, Math.min(window.scrollY, limit));
+        // A shrinking document can clamp the scroll position at the bottom.
+        const delta = y - Math.min(lastY, limit);
         lastY = y;
         if (!mobile.matches) return;
         if (y <= 24) {
           setCompact(false);
           return;
         }
-        if (performance.now() < settlingUntil || drawer?.open || !delta) return;
+        if (drawer?.open || !delta) return;
         const nextDirection = Math.sign(delta);
         if (nextDirection !== direction) distance = 0;
         direction = nextDirection;

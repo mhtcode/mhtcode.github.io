@@ -188,6 +188,9 @@ main {
 .section-menu-open {
   overflow: hidden;
 }
+.header-transitioning {
+  overflow-anchor: none;
+}
 .section-drawer {
   position: fixed;
   inset: 0 auto 0 0;
