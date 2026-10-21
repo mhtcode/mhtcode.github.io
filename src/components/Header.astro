@@ -109,7 +109,9 @@ const portfolioTitle =
     updateHeaderHeight();
     new ResizeObserver(updateHeaderHeight).observe(header);
 
-    const menu = header.querySelector("#section-menu-toggle");
+    const menu = header.querySelector<HTMLButtonElement>(
+      "#section-menu-toggle",
+    );
     const navigation = header.querySelector<HTMLElement>(".header-navigation");
     const themeControl =
       header.querySelector<HTMLButtonElement>("#theme-toggle");
@@ -118,12 +120,7 @@ const portfolioTitle =
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       );
-      const drawer =
-        document.querySelector<HTMLDialogElement>("#section-drawer");
       let compact = false;
-      let lastY = Math.max(0, window.scrollY);
-      let direction = 0;
-      let distance = 0;
       let anchorTimer = 0;
       let frame = 0;
 
@@ -131,7 +128,6 @@ const portfolioTitle =
         if (next === compact) return;
         compact = next;
         // Prevent the animated height change from moving the page's scroll anchor.
-        // User scrolling stays responsive, including a reversal mid-transition.
         document.documentElement.classList.add("header-transitioning");
         window.clearTimeout(anchorTimer);
         anchorTimer = window.setTimeout(
@@ -140,41 +136,21 @@ const portfolioTitle =
           reducedMotion.matches ? 100 : 320,
         );
         header!.classList.toggle("site-header-compact", compact);
+        const focused = document.activeElement;
+        if (
+          compact &&
+          focused?.matches(":focus-visible") &&
+          (navigation!.contains(focused) || focused === themeControl)
+        ) {
+          menu!.focus({ preventScroll: true });
+        }
         navigation!.inert = compact;
         themeControl!.inert = compact;
-        distance = 0;
       }
 
       function updateScroll() {
         frame = 0;
-        const limit = Math.max(
-          0,
-          document.documentElement.scrollHeight - innerHeight,
-        );
-        const y = Math.max(0, Math.min(window.scrollY, limit));
-        // A shrinking document can clamp the scroll position at the bottom.
-        const delta = y - Math.min(lastY, limit);
-        lastY = y;
-        if (!mobile.matches) return;
-        if (y <= 24) {
-          setCompact(false);
-          return;
-        }
-        if (drawer?.open || !delta) return;
-        const nextDirection = Math.sign(delta);
-        if (nextDirection !== direction) distance = 0;
-        direction = nextDirection;
-        distance += Math.abs(delta);
-        if (distance < 12) return;
-        const focused = document.activeElement;
-        const controlsHaveKeyboardFocus =
-          focused?.matches(":focus-visible") &&
-          (navigation!.contains(focused) || focused === themeControl);
-        if (direction > 0 && y > 96 && !controlsHaveKeyboardFocus) {
-          setCompact(true);
-        } else if (direction < 0) {
-          setCompact(false);
-        }
+        setCompact(mobile.matches && window.scrollY > 1);
       }
 
       window.addEventListener(
@@ -184,12 +160,9 @@ const portfolioTitle =
         },
         { passive: true },
       );
-      mobile.addEventListener("change", () => {
-        setCompact(false);
-        lastY = Math.max(0, window.scrollY);
-        direction = 0;
-        distance = 0;
-      });
+      mobile.addEventListener("change", updateScroll);
+      window.addEventListener("pageshow", updateScroll);
+      updateScroll();
     }
   }
   const toggle = document.getElementById("theme-toggle");
