@@ -1,0 +1,45 @@
+---
+import type { ResumeItem } from "../portfolio";
+
+interface Props {
+  item: ResumeItem;
+  category: string;
+}
+
+const { item, category } = Astro.props;
+const sectionTags: Record<string, string> = {
+  education: "Education",
+  certifications: "Certification",
+  research: "Research",
+  "teaching-assistant": "Teaching",
+  community: "Volunteer",
+  skills: "Skills",
+};
+const label = item.tag ?? sectionTags[category];
+---
+
+{label && (
+  <span class="portfolio-tag inline-flex items-center gap-1.5 rounded-l-sm bg-blue-50 py-0.5 pr-4 pl-2 text-xs leading-5 font-semibold text-primary-700 dark:bg-primary-900/50 dark:text-primary-400">
+    {label}
+  </span>
+)}
+
+<style>
+  .portfolio-tag {
+    clip-path: polygon(
+      0 0,
+      calc(100% - 0.5rem) 0,
+      100% 50%,
+      calc(100% - 0.5rem) 100%,
+      0 100%
+    );
+  }
+
+  .portfolio-tag::after {
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 50%;
+    background: currentColor;
+    content: "";
+  }
+</style>

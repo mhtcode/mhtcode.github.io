@@ -68,6 +68,9 @@ button {
 .resume-card:hover {
   text-decoration: none;
 }
+.portfolio-card {
+  @apply rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg dark:bg-gray-800;
+}
 .contact-link {
   color: inherit;
 }

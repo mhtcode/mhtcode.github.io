@@ -60,7 +60,8 @@ for (const [profile, content] of [
   const panel = content.match(
     /<section[^>]*id="tab-skills"[\s\S]*?<\/section>/,
   )?.[0];
-  assert.match(panel ?? "", />Technical Skills<\/h2>/);
+  assert.ok(panel, `${profile}: Skills panel exists`);
+  assert.doesNotMatch(panel, /Technical Skills|Continuous Learning/);
   const skills = getProfileSections(profile).find(
     (section) => section.slug === "skills",
   );
@@ -69,7 +70,17 @@ for (const [profile, content] of [
     skills.items.length,
     `${profile}: one skill list per visible category`,
   );
+  const projects = content.match(
+    /<section[^>]*id="tab-projects"[\s\S]*?<\/section>/,
+  )?.[0];
+  assert.ok(projects, `${profile}: Projects panel exists`);
+  assert.match(projects, /<ol class="project-timeline/);
+  assert.match(projects, /class="portfolio-tag\b[^>]*>\s*Personal<\/span>/);
+  assert.match(projects, /class="portfolio-tag\b[^>]*>\s*Academic<\/span>/);
+  assert.match(content, /class="portfolio-tag\b[^>]*>\s*Volunteer<\/span>/);
+  assert.match(projects, /\/projects\/career\/[\s\S]*\/projects\/duocardsdict\//);
 }
+assert.match(html, /class="portfolio-tag\b[^>]*>\s*Company<\/span>/);
 for (const [name, content] of [
   ["Engineering", html],
   ["Academic", academic],

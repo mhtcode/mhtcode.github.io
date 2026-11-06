@@ -2,6 +2,7 @@ export interface ResumeItem {
   slug: string;
   title: string;
   organization?: string;
+  tag?: string;
   description: string;
   start?: string;
   end?: string;
@@ -54,6 +55,7 @@ export const resumeSections: ResumeSection[] = [
     items: [
       {
         slug: "cloud-devops-mlops-home-lab",
+        tag: "Personal",
         title: "Cloud, DevOps & MLOps Home Lab",
         organization: "Independent projects · Toronto, Canada",
         description:
@@ -79,6 +81,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "med-x-product-innovation",
+        tag: "Innovation program",
         title: "Product Innovator · MED-X",
         organization: "MED-X Health & Innovation Program",
         description:
@@ -103,6 +106,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "devops-intern",
+        tag: "Company",
         title: "Cloud / Backend Development Intern",
         organization: "Payam Pardaz · Sadra Cloud Team · Isfahan, Iran",
         description:
@@ -133,6 +137,7 @@ export const resumeSections: ResumeSection[] = [
     items: [
       {
         slug: "career",
+        tag: "Personal",
         title: "Career",
         organization: "AI-powered career management",
         description:
@@ -158,6 +163,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "manisa",
+        tag: "Business",
         title: "Manisa",
         organization: "Business management platform",
         description:
@@ -188,6 +194,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "duocardsdict",
+        tag: "Personal",
         title: "DuoCardsDict",
         organization: "Vocabulary learning platform",
         description:
@@ -213,6 +220,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "local-ai-inference",
+        tag: "Personal",
         title: "Local AI Inference & Computer Vision",
         organization: "Personal AI / MLOps projects",
         description:
@@ -238,6 +246,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "flight-reservation-data-warehouse",
+        tag: "Academic",
         title: "Flight Reservation Data Warehouse",
         organization: "Database II · Data engineering",
         description:
@@ -265,6 +274,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "dockerized-secrets-service",
+        tag: "Company",
         title: "Dockerized Secrets Service",
         organization: "Go · HashiCorp Vault",
         description:
@@ -289,6 +299,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "pulp-fiction",
+        tag: "Academic",
         title: "Pulp-Fiction Social Media Application",
         organization: "University project · C++ / Qt",
         description:
@@ -306,6 +317,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "opentelemetry-dice-service",
+        tag: "Personal",
         title: "Observable Go Dice Service",
         organization: "Backend & observability practice",
         description:
@@ -323,6 +335,7 @@ export const resumeSections: ResumeSection[] = [
       },
       {
         slug: "academic-programming-projects",
+        tag: "Academic",
         title: "Academic & Programming Projects",
         organization: "Computer Engineering coursework",
         description:

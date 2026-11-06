@@ -10,6 +10,7 @@ interface Props {
 const { profile } = Astro.props;
 const content = portfolioProfiles[profile];
 const sections = getProfileSections(profile);
+const basePath = profile === "academic" ? "/academic/" : "/";
 ---
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -99,15 +100,33 @@ const sections = getProfileSections(profile);
               </p>
             )}
           </div>
-          <div class="space-y-6">
-            {section.items.map((item) => (
-              <ResumeCard
-                item={item}
-                category={section.slug}
-                basePath={profile === "academic" ? "/academic/" : "/"}
-              />
-            ))}
-          </div>
+          {section.slug === "projects" ? (
+            <ol
+              class="project-timeline space-y-6"
+              role="list"
+              aria-label={section.name}
+            >
+              {section.items.map((item) => (
+                <li>
+                  <ResumeCard
+                    item={item}
+                    category={section.slug}
+                    basePath={basePath}
+                  />
+                </li>
+              ))}
+            </ol>
+          ) : (
+            <div class="space-y-6">
+              {section.items.map((item) => (
+                <ResumeCard
+                  item={item}
+                  category={section.slug}
+                  basePath={basePath}
+                />
+              ))}
+            </div>
+          )}
         </>
       )}
     </section>
@@ -126,6 +145,44 @@ const sections = getProfileSections(profile);
     </style>
   </noscript>
 </div>
+<style>
+  .project-timeline li {
+    position: relative;
+    padding-inline-start: 1.5rem;
+  }
+
+  .project-timeline li:not(:last-child)::before,
+  .project-timeline li::after {
+    position: absolute;
+    inset-block-start: 1.75rem;
+    content: "";
+  }
+
+  .project-timeline li:not(:last-child)::before {
+    inset-inline-start: 0.3125rem;
+    width: 0.125rem;
+    height: calc(100% + 1.5rem);
+    background: var(--color-gray-300);
+  }
+
+  .project-timeline li::after {
+    inset-inline-start: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+    border: 2px solid var(--color-gray-50);
+    border-radius: 50%;
+    background: var(--color-primary-600);
+  }
+
+  :global(.dark) .project-timeline li::before {
+    background: var(--color-gray-700);
+  }
+
+  :global(.dark) .project-timeline li::after {
+    border-color: var(--color-gray-900);
+    background: var(--color-primary-400);
+  }
+</style>
 <script>
   const buttons = Array.from(
     document.querySelectorAll<HTMLButtonElement>('[role="tab"]'),
