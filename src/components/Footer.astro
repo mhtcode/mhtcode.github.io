@@ -1,6 +1,10 @@
 ---
 import { siteConfig } from "../config";
 import Icon from "./Icon.astro";
+const updated = new Intl.DateTimeFormat("en-CA", {
+  dateStyle: "long",
+  timeZone: "UTC",
+}).format(new Date(siteConfig.lastUpdated));
 ---
 
 <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-16">
@@ -35,6 +39,9 @@ import Icon from "./Icon.astro";
       </div>
       <p class="text-sm">
         © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+      </p>
+      <p class="mt-1 text-sm">
+        Last updated <time datetime={siteConfig.lastUpdated}>{updated}</time>
       </p>
     </div>
   </div>

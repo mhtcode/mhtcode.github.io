@@ -406,6 +406,24 @@ export const resumeSections: ResumeSection[] = [
     name: "Certifications",
     items: [
       {
+        slug: "introduction-to-docker",
+        title: "Introduction to Docker",
+        organization: "Google Cloud Skills Boost",
+        description: "Docker course credential issued through Coursera.",
+        start: "Nov 2026",
+        link: "https://www.coursera.org/account/accomplishments/records/YC6YP5LVA8SF",
+        linkLabel: "View credential",
+      },
+      {
+        slug: "introduction-to-devops",
+        title: "Introduction to DevOps",
+        organization: "IBM",
+        description: "DevOps course credential issued through Coursera.",
+        start: "Nov 2026",
+        link: "https://www.coursera.org/account/accomplishments/records/LI8N8RCDI6UI",
+        linkLabel: "View credential",
+      },
+      {
         slug: "aws-cloud-practitioner",
         title: "AWS Certified Cloud Practitioner",
         organization: "Amazon Web Services",

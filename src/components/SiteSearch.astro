@@ -1,0 +1,170 @@
+---
+interface Props {
+  academic: boolean;
+}
+const { academic } = Astro.props;
+---
+
+<button
+  id="site-search-toggle"
+  type="button"
+  class="inline-flex size-11 shrink-0 items-center justify-center rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+  aria-label="Search site"
+  aria-haspopup="dialog"
+  aria-controls="site-search"
+>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <circle cx="10.5" cy="10.5" r="6.5" />
+    <path d="m16 16 4 4" />
+  </svg>
+</button>
+<dialog
+  id="site-search"
+  aria-labelledby="site-search-title"
+  data-academic={academic ? "true" : "false"}
+  class="m-auto max-h-[80dvh] w-[min(36rem,calc(100%_-_2rem))] rounded-xl border border-gray-200 bg-white p-5 text-gray-900 shadow-xl backdrop:bg-gray-900/65 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+>
+  <div class="mb-4 flex items-center justify-between gap-4">
+    <h2 id="site-search-title" class="text-xl font-semibold">
+      Search portfolio
+    </h2>
+    <form method="dialog">
+      <button
+        class="size-11 rounded-md text-xl hover:bg-gray-100 dark:hover:bg-gray-700"
+        aria-label="Close search"
+      >
+        ×
+      </button>
+    </form>
+  </div>
+  <label class="sr-only" for="site-search-query">
+    Search by keyword or tag
+  </label>
+  <input
+    id="site-search-query"
+    type="search"
+    autocomplete="off"
+    placeholder="Search by keyword or tag"
+    class="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 dark:border-gray-600 dark:bg-gray-900"
+  />
+  <p
+    id="site-search-status"
+    role="status"
+    class="mt-4 text-sm text-gray-600 dark:text-gray-300"
+  ></p>
+  <ul
+    id="site-search-results"
+    role="list"
+    class="mt-2 divide-y divide-gray-200 dark:divide-gray-700"
+  ></ul>
+</dialog>
+
+<script>
+  import type { SearchEntry } from "../pages/search-index.json";
+
+  const trigger = document.querySelector<HTMLButtonElement>(
+    "#site-search-toggle",
+  )!;
+  const dialog = document.querySelector<HTMLDialogElement>("#site-search")!;
+  const input = document.querySelector<HTMLInputElement>("#site-search-query")!;
+  const status = document.querySelector<HTMLParagraphElement>(
+    "#site-search-status",
+  )!;
+  const results = document.querySelector<HTMLUListElement>(
+    "#site-search-results",
+  )!;
+  let entries: SearchEntry[] | undefined;
+  let loading = false;
+  let loadFailed = false;
+
+  function render() {
+    results.replaceChildren();
+    const query = input.value.trim().toLowerCase();
+    if (!entries) {
+      status.textContent = loadFailed
+        ? "Search is unavailable. Close and reopen to retry."
+        : "Loading search…";
+      return;
+    }
+    if (!query) {
+      status.textContent = "";
+      return;
+    }
+    const terms = query.split(/\s+/);
+    const matches = entries
+      .flatMap((entry) => {
+        const heading = [entry.title, entry.tag, entry.section]
+          .join(" ")
+          .toLowerCase();
+        const fullText = `${heading} ${entry.body.toLowerCase()}`;
+        if (!terms.every((term) => fullText.includes(term))) return [];
+        const score =
+          Number(entry.title.toLowerCase().includes(query)) * 3 +
+          Number(entry.tag?.toLowerCase() === query) * 2 +
+          Number(terms.every((term) => heading.includes(term)));
+        return [{ entry, score }];
+      })
+      .sort((a, b) => b.score - a.score);
+    status.textContent =
+      matches.length === 0
+        ? "No results."
+        : `${matches.length} ${matches.length === 1 ? "result" : "results"}`;
+    for (const { entry } of matches) {
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.href =
+        (dialog.dataset.academic === "true" && entry.academicHref) ||
+        entry.href;
+      link.className =
+        "block rounded-sm px-2 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-700";
+      const title = document.createElement("span");
+      title.className =
+        "block font-semibold text-primary-700 dark:text-primary-400";
+      title.textContent = entry.title;
+      const meta = document.createElement("span");
+      meta.className = "block text-sm text-gray-600 dark:text-gray-300";
+      meta.textContent = [entry.section, entry.tag].filter(Boolean).join(" · ");
+      link.append(title, meta);
+      link.addEventListener("click", () => dialog.close());
+      item.append(link);
+      results.append(item);
+    }
+  }
+
+  trigger.addEventListener("click", async () => {
+    dialog.showModal();
+    input.focus();
+    if (entries || loading) return;
+    loading = true;
+    loadFailed = false;
+    render();
+    try {
+      const response = await fetch("/search-index.json");
+      if (!response.ok) throw new Error("Search index unavailable");
+      entries = await response.json();
+    } catch {
+      loadFailed = true;
+    } finally {
+      loading = false;
+      render();
+    }
+  });
+  input.addEventListener("input", render);
+  input.addEventListener("keydown", (event) => {
+    if (event.isComposing) return;
+    if (event.key === "Escape") {
+      event.preventDefault();
+      dialog.close();
+    }
+    if (event.key === "Enter") results.querySelector("a")?.click();
+  });
+</script>

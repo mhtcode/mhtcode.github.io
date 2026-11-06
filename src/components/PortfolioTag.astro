@@ -1,5 +1,6 @@
 ---
 import type { ResumeItem } from "../portfolio";
+import { getPortfolioTag } from "../portfolio-tags";
 
 interface Props {
   item: ResumeItem;
@@ -7,15 +8,7 @@ interface Props {
 }
 
 const { item, category } = Astro.props;
-const sectionTags: Record<string, string> = {
-  education: "Education",
-  certifications: "Certification",
-  research: "Research",
-  "teaching-assistant": "Teaching",
-  community: "Volunteer",
-  skills: "Skills",
-};
-const label = item.tag ?? sectionTags[category];
+const label = getPortfolioTag(item, category);
 ---
 
 {label && (

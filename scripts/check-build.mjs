@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { resumeSections } from "../src/portfolio.ts";
 import { portfolioProfiles } from "../src/config.ts";
 import { getProfileSections } from "../src/profiles.ts";
+import { skillScores } from "../src/skill-scores.ts";
 
 const html = readFileSync("dist/index.html", "utf8");
 assert.ok(
@@ -11,7 +12,30 @@ assert.ok(
   "A separate academic portfolio must be generated",
 );
 const academic = readFileSync("dist/academic/index.html", "utf8");
+const searchIndex = JSON.parse(readFileSync("dist/search-index.json", "utf8"));
+assert.ok(
+  searchIndex.some(
+    (entry) =>
+      entry.tag === "Company" && entry.body.includes("HashiCorp Vault"),
+  ),
+);
+for (const { href, academicHref } of searchIndex) {
+  for (const path of [href, academicHref].filter(Boolean)) {
+    assert.ok(
+      existsSync(resolve("dist", path.slice(1).split("#")[0], "index.html")),
+      path,
+    );
+  }
+}
+for (const slug of ["introduction-to-docker", "introduction-to-devops"]) {
+  assert.ok(
+    searchIndex.some((entry) => entry.href === `/certifications/${slug}/`),
+  );
+  assert.ok(academic.includes(`href="/academic/certifications/${slug}/"`));
+}
 for (const content of [html, academic]) {
+  assert.match(content, /id="site-search-toggle"/);
+  assert.match(content, /Last updated <time datetime="\d{4}-\d{2}-\d{2}"/);
   const header = content.match(
     /<header[^>]*id="site-header"[\s\S]*?<\/header>/,
   )?.[0];
@@ -70,6 +94,16 @@ for (const [profile, content] of [
     skills.items.length,
     `${profile}: one skill list per visible category`,
   );
+  const names = skills.items.flatMap((item) => item.description.split(" · "));
+  const meters = [...panel.matchAll(/role="meter"[^>]*aria-valuenow="(\d+)"/g)];
+  assert.deepEqual(
+    meters.map((match) => Number(match[1])),
+    names.map((name) => {
+      const score = skillScores[name];
+      assert.ok(Number.isInteger(score) && score >= 0 && score <= 100, name);
+      return score;
+    }),
+  );
   const projects = content.match(
     /<section[^>]*id="tab-projects"[\s\S]*?<\/section>/,
   )?.[0];
@@ -78,7 +112,10 @@ for (const [profile, content] of [
   assert.match(projects, /class="portfolio-tag\b[^>]*>\s*Personal<\/span>/);
   assert.match(projects, /class="portfolio-tag\b[^>]*>\s*Academic<\/span>/);
   assert.match(content, /class="portfolio-tag\b[^>]*>\s*Volunteer<\/span>/);
-  assert.match(projects, /\/projects\/career\/[\s\S]*\/projects\/duocardsdict\//);
+  assert.match(
+    projects,
+    /\/projects\/career\/[\s\S]*\/projects\/duocardsdict\//,
+  );
 }
 assert.match(html, /class="portfolio-tag\b[^>]*>\s*Company<\/span>/);
 for (const [name, content] of [

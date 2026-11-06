@@ -1,4 +1,5 @@
 export const siteConfig = {
+  lastUpdated: "2026-11-05",
   name: "Masih Tanoursaz",
   title: "Cloud, DevOps & MLOps",
   subtitle: "Cloud, DevOps & MLOps Engineer",

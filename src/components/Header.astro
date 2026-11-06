@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import SiteSearch from "./SiteSearch.astro";
 import type { ProfileKind } from "../config";
 interface Props {
   activeProfile?: ProfileKind;
@@ -85,16 +86,19 @@ const portfolioTitle =
           </a>
         </nav>
       </div>
-      <button
-        id="theme-toggle"
-        type="button"
-        aria-label="Switch to dark theme"
-        aria-pressed="false"
-        class="header-theme-toggle"
-      >
-        <Icon name="sun" class="w-5 h-5 hidden dark:block" />
-        <Icon name="moon" class="w-5 h-5 dark:hidden" />
-      </button>
+      <div class="header-actions flex items-center justify-end">
+        <button
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark theme"
+          aria-pressed="false"
+          class="header-theme-toggle"
+        >
+          <Icon name="sun" class="w-5 h-5 hidden dark:block" />
+          <Icon name="moon" class="w-5 h-5 dark:hidden" />
+        </button>
+        <SiteSearch academic={currentProfile === "academic"} />
+      </div>
     </div>
   </div>
 </header>

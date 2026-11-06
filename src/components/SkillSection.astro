@@ -4,6 +4,8 @@ import type { ProfileKind } from "../config";
 import type { ResumeItem } from "../portfolio";
 import Icon from "./Icon.astro";
 import ViewDetails from "./ViewDetails.astro";
+import PortfolioTag from "./PortfolioTag.astro";
+import { skillScores } from "../skill-scores";
 
 interface Props {
   items: ResumeItem[];
@@ -37,14 +39,35 @@ const categoryIcons: Record<string, ComponentProps<typeof Icon>["name"]> = {
         </h3>
       </header>
       <ul
-        class="skill-list divide-y divide-gray-200 text-sm text-gray-700 dark:divide-gray-700 dark:text-gray-300"
+        class="skill-list space-y-2.5 text-sm text-gray-700 dark:text-gray-300"
         role="list"
       >
         {item.description.split(" · ").map((skill) => (
-          <li class="py-1.5">{skill}</li>
+          <li>
+            <div class="mb-1 flex items-baseline justify-between gap-2">
+              <span>{skill}</span>
+              <span class="shrink-0 text-xs tabular-nums" aria-hidden="true">
+                {skillScores[skill]}%
+              </span>
+            </div>
+            <div
+              class="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
+              role="meter"
+              aria-label={skill}
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow={skillScores[skill]}
+            >
+              <span
+                class="block h-full rounded-full bg-primary-600 dark:bg-primary-400"
+                style={`width: ${skillScores[skill]}%`}
+              ></span>
+            </div>
+          </li>
         ))}
       </ul>
-      <div class="mt-auto flex justify-end pt-3">
+      <div class="mt-auto flex flex-wrap items-center justify-between gap-x-3 pt-3">
+        <PortfolioTag item={item} category="skills" />
         <a
           href={`${skillsPath}${item.slug}/`}
           class="resume-card group inline-flex min-h-11 items-center rounded-sm"

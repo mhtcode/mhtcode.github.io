@@ -57,9 +57,6 @@ const basePath = profile === "academic" ? "/academic/" : "/";
       </p>
     </header>
     <article class="content-area max-w-none">
-      {item.dateNote && (
-        <p class="text-sm text-gray-500 dark:text-gray-400">{item.dateNote}</p>
-      )}
       {item.paragraphs?.map((paragraph) => (
         <p>{paragraph}</p>
       ))}
