@@ -3,6 +3,7 @@ import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { resumeSections } from "../src/portfolio.ts";
 import { portfolioProfiles } from "../src/config.ts";
+import { getProfileSections } from "../src/profiles.ts";
 
 const html = readFileSync("dist/index.html", "utf8");
 assert.ok(
@@ -52,6 +53,23 @@ assert.match(academic, /Masih_Tanoursaz_Academic_CV\.pdf/);
 assert.doesNotMatch(academic, /href="\/Masih_Tanoursaz_Resume_DevOps\.pdf"/);
 assert.match(html, /href="\/academic\/"/);
 assert.match(academic, /href="\/"/);
+for (const [profile, content] of [
+  ["engineering", html],
+  ["academic", academic],
+]) {
+  const panel = content.match(
+    /<section[^>]*id="tab-skills"[\s\S]*?<\/section>/,
+  )?.[0];
+  assert.match(panel ?? "", />Technical Skills<\/h2>/);
+  const skills = getProfileSections(profile).find(
+    (section) => section.slug === "skills",
+  );
+  assert.equal(
+    (panel.match(/<ul class="skill-list\b/g) ?? []).length,
+    skills.items.length,
+    `${profile}: one skill list per visible category`,
+  );
+}
 for (const [name, content] of [
   ["Engineering", html],
   ["Academic", academic],
